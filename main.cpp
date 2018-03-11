@@ -2,6 +2,7 @@
 #include<stdio.h>
 #include <allegro5\allegro.h>
 #include<allegro5\allegro_image.h>
+#include "system_functions.hpp"
 #define width 800
 #define height 537
 
@@ -13,12 +14,12 @@ int main(){
     al_install_keyboard();
     al_init_image_addon();
     ALLEGRO_KEYBOARD_STATE keyboard;
+
     ALLEGRO_DISPLAY *display = al_create_display( width, height );
     if(!display)
         cout<<"failed to load display";
-    ALLEGRO_BITMAP *start_background = al_load_bitmap("start_background.png");
-        if(!start_background)
-            cout<<"failed to load start_background bitmap";
+
+    ALLEGRO_BITMAP *start_background = load_bitmap("start_background.png");
 
 
     while(!al_key_down(&keyboard, ALLEGRO_KEY_ESCAPE)){
