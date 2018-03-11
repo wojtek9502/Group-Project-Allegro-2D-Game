@@ -22,18 +22,24 @@ int main(){
     ALLEGRO_BITMAP *start_background = load_bitmap("start_background.png");
     ALLEGRO_BITMAP *dog = load_bitmap("dog.png");
     ALLEGRO_BITMAP *cat = load_bitmap("cat.png");
+    ALLEGRO_BITMAP *one_player = load_bitmap("1 player.png");
+    ALLEGRO_BITMAP *two_player = load_bitmap("2 player.png");
 
 
     while(!al_key_down(&keyboard, ALLEGRO_KEY_ESCAPE)){
     al_get_keyboard_state(&keyboard);
 
     al_draw_bitmap(start_background,0,0,0);
-    al_draw_bitmap(dog,100,300,0);
-    al_draw_bitmap(cat,500,300,0);
+    al_draw_bitmap(dog,130,390,0);
+    al_draw_bitmap(cat,500,380,0);
+    al_draw_bitmap(one_player, 320, 150, 0);
+    al_draw_bitmap(two_player, 300, 230, 0);
     al_flip_display();
 
     }
 
+    al_destroy_bitmap(two_player);
+    al_destroy_bitmap(one_player);
     al_destroy_bitmap(dog);
     al_destroy_bitmap(cat);
     al_destroy_bitmap(start_background);
