@@ -10,10 +10,15 @@ using namespace std;
 
 int main(){
 
+    bool one_player_flag = false;
+    bool two_player_flag = false;
+
     al_init();
     al_install_keyboard();
+    al_install_mouse();
     al_init_image_addon();
     ALLEGRO_KEYBOARD_STATE keyboard;
+    ALLEGRO_MOUSE_STATE mouse;
 
     ALLEGRO_DISPLAY *display = al_create_display( width, height );
     if(!display)
@@ -28,7 +33,17 @@ int main(){
 
     while(!al_key_down(&keyboard, ALLEGRO_KEY_ESCAPE)){
     al_get_keyboard_state(&keyboard);
-
+    al_get_mouse_state(&mouse);
+    if (mouse.buttons & 1) {
+        if((mouse.x >=300 && mouse.x <=500) && (mouse.y >= 150 && mouse.y <=201)){
+            printf("one player: (%d, %d)\n", mouse.x, mouse.y);
+            one_player_flag = true;
+        }
+        if((mouse.x >=300 && mouse.x <=500) && (mouse.y >=230 && mouse.y <=281)){
+            printf("two player: (%d, %d)\n", mouse.x, mouse.y);
+            two_player_flag = true;
+        }
+    }
     al_draw_bitmap(start_background,0,0,0);
     al_draw_bitmap(dog,130,390,0);
     al_draw_bitmap(cat,500,380,0);
