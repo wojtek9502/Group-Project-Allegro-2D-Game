@@ -10,8 +10,7 @@ using namespace std;
 
 int main(){
 
-    bool one_player_flag = false;
-    bool two_player_flag = false;
+    int ret_x, ret_y;
 
     al_init();
     al_install_keyboard();
@@ -29,21 +28,35 @@ int main(){
     ALLEGRO_BITMAP *cat = load_bitmap("cat.png");
     ALLEGRO_BITMAP *one_player = load_bitmap("1 player.png");
     ALLEGRO_BITMAP *two_player = load_bitmap("2 player.png");
+    ALLEGRO_BITMAP *cursor_bitmap = load_bitmap("cursor.png");
+    ALLEGRO_MOUSE_CURSOR *cursor = al_create_mouse_cursor(cursor_bitmap, 0, 0);
 
 
     while(!al_key_down(&keyboard, ALLEGRO_KEY_ESCAPE)){
     al_get_keyboard_state(&keyboard);
     al_get_mouse_state(&mouse);
-    if (mouse.buttons & 1) {
+       al_set_system_mouse_cursor(display, ALLEGRO_SYSTEM_MOUSE_CURSOR_DEFAULT);
+
+
         if((mouse.x >=300 && mouse.x <=500) && (mouse.y >= 150 && mouse.y <=201)){
+
             printf("one player: (%d, %d)\n", mouse.x, mouse.y);
-            one_player_flag = true;
+            al_set_mouse_cursor(display, cursor);
+            al_rest(0.005);
+            if(mouse.buttons & 1){
+                cout<<"clicked one player: x:"<<mouse.x<<"y: "<<mouse.y<<endl;
+            }
         }
+
         if((mouse.x >=300 && mouse.x <=500) && (mouse.y >=230 && mouse.y <=281)){
             printf("two player: (%d, %d)\n", mouse.x, mouse.y);
-            two_player_flag = true;
+            al_set_mouse_cursor(display, cursor);
+            al_rest(0.005);
+            if(mouse.buttons & 1){
+                cout<<"clicked one player: x:"<<mouse.x<<"y: "<<mouse.y<<endl;
+            }
         }
-    }
+
     al_draw_bitmap(start_background,0,0,0);
     al_draw_bitmap(dog,130,390,0);
     al_draw_bitmap(cat,500,380,0);
@@ -51,7 +64,7 @@ int main(){
     al_draw_bitmap(two_player, 300, 230, 0);
     al_flip_display();
 
-    }
+  }
 
     al_destroy_bitmap(two_player);
     al_destroy_bitmap(one_player);
