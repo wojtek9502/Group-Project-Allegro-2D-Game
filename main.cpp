@@ -1,7 +1,8 @@
 #include <iostream>
 #include<stdio.h>
-#include <allegro5\allegro.h>
-#include<allegro5\allegro_image.h>
+#include <allegro5/allegro.h>
+#include<allegro5/allegro_image.h>
+#include<allegro5/allegro_primitives.h>
 #include "system_functions.hpp"
 #define width 800
 #define height 537
@@ -9,8 +10,6 @@
 using namespace std;
 
 int main(){
-
-    int ret_x, ret_y;
 
     al_init();
     al_install_keyboard();
@@ -42,7 +41,7 @@ int main(){
 
             printf("one player: (%d, %d)\n", mouse.x, mouse.y);
             al_set_mouse_cursor(display, cursor);
-            al_rest(0.005);
+            al_rest(0.1);
             if(mouse.buttons & 1){
                 cout<<"clicked one player: x:"<<mouse.x<<"y: "<<mouse.y<<endl;
             }
@@ -51,7 +50,7 @@ int main(){
         if((mouse.x >=300 && mouse.x <=500) && (mouse.y >=230 && mouse.y <=281)){
             printf("two player: (%d, %d)\n", mouse.x, mouse.y);
             al_set_mouse_cursor(display, cursor);
-            al_rest(0.005);
+            al_rest(0.1);
             if(mouse.buttons & 1){
                 cout<<"clicked one player: x:"<<mouse.x<<"y: "<<mouse.y<<endl;
             }
@@ -66,6 +65,7 @@ int main(){
 
   }
 
+    al_destroy_bitmap(cursor_bitmap);
     al_destroy_bitmap(two_player);
     al_destroy_bitmap(one_player);
     al_destroy_bitmap(dog);
