@@ -3,10 +3,11 @@
 #include <allegro5/allegro.h>
 #include<allegro5/allegro_image.h>
 #include<allegro5/allegro_primitives.h>
-#include "allegro5/allegro_font.h"
-#include "allegro5/allegro_ttf.h"
+
 #include "system_functions.hpp"
 #include "game.hpp"
+#include "player.hpp"
+
 #define width 800
 #define height 537
 
@@ -14,7 +15,9 @@ using namespace std;
 
 int main(){
     bool end_menu_start = false;
-    bool clear_display = false;
+    Player dog = Player(130,390,100);
+    Player cat = Player(500,380,100);
+
 
     al_init();
     al_install_keyboard();
@@ -30,8 +33,8 @@ int main(){
 
     ALLEGRO_BITMAP *start_background = load_bitmap("img//start_background.png");
     ALLEGRO_BITMAP *background = load_bitmap("img//background.png");
-    ALLEGRO_BITMAP *dog = load_bitmap("img//dog.png");
-    ALLEGRO_BITMAP *cat = load_bitmap("img//cat.png");
+    ALLEGRO_BITMAP *dog_bitmap = load_bitmap("img//dog.png");
+    ALLEGRO_BITMAP *cat_bitmap = load_bitmap("img//cat.png");
     ALLEGRO_BITMAP *one_player = load_bitmap("img//1 player.png");
     ALLEGRO_BITMAP *two_player = load_bitmap("img//2 player.png");
     ALLEGRO_BITMAP *cursor_bitmap = load_bitmap("img//cursor.png");
@@ -48,8 +51,8 @@ int main(){
         {
             end_menu_start = run_menu_start(mouse, display, cursor, end_menu_start);
             al_draw_bitmap(start_background,0,0,0);
-            al_draw_bitmap(dog,130,390,0);
-            al_draw_bitmap(cat,500,380,0);
+            al_draw_bitmap(dog_bitmap, dog.x_position, dog.y_position, 0);
+            al_draw_bitmap(cat_bitmap, cat.x_position, cat.y_position,0);
             al_draw_bitmap(one_player, 320, 150, 0);
             al_draw_bitmap(two_player, 300, 230, 0);
 
@@ -60,11 +63,12 @@ int main(){
             //game functions here
             check_move(keyboard);
             al_draw_bitmap(background,0,0,0);
-            al_draw_bitmap(dog,130,390,0);
-            al_draw_bitmap(cat,500,380,0);
+            al_draw_bitmap(dog_bitmap, dog.x_position, dog.y_position, 0);
+            al_draw_bitmap(cat_bitmap, cat.x_position, cat.y_position,0);
 
         }
-al_flip_display();
+
+        al_flip_display();
 
 
 
@@ -73,8 +77,8 @@ al_flip_display();
     al_destroy_bitmap(cursor_bitmap);
     al_destroy_bitmap(two_player);
     al_destroy_bitmap(one_player);
-    al_destroy_bitmap(dog);
-    al_destroy_bitmap(cat);
+    al_destroy_bitmap(dog_bitmap);
+    al_destroy_bitmap(cat_bitmap);
     al_destroy_bitmap(start_background);
     al_destroy_bitmap(background);
     al_destroy_display( display );
