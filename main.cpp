@@ -3,6 +3,8 @@
 #include <allegro5/allegro.h>
 #include<allegro5/allegro_image.h>
 #include<allegro5/allegro_primitives.h>
+#include "allegro5/allegro_font.h"
+#include "allegro5/allegro_ttf.h"
 #include "system_functions.hpp"
 #define width 800
 #define height 537
@@ -22,13 +24,14 @@ int main(){
     if(!display)
         cout<<"failed to load display";
 
-    ALLEGRO_BITMAP *start_background = load_bitmap("start_background.png");
-    ALLEGRO_BITMAP *dog = load_bitmap("dog.png");
-    ALLEGRO_BITMAP *cat = load_bitmap("cat.png");
-    ALLEGRO_BITMAP *one_player = load_bitmap("1 player.png");
-    ALLEGRO_BITMAP *two_player = load_bitmap("2 player.png");
-    ALLEGRO_BITMAP *cursor_bitmap = load_bitmap("cursor.png");
+    ALLEGRO_BITMAP *start_background = load_bitmap("img//start_background.png");
+    ALLEGRO_BITMAP *dog = load_bitmap("img//dog.png");
+    ALLEGRO_BITMAP *cat = load_bitmap("img//cat.png");
+    ALLEGRO_BITMAP *one_player = load_bitmap("img//1 player.png");
+    ALLEGRO_BITMAP *two_player = load_bitmap("img//2 player.png");
+    ALLEGRO_BITMAP *cursor_bitmap = load_bitmap("img//cursor.png");
     ALLEGRO_MOUSE_CURSOR *cursor = al_create_mouse_cursor(cursor_bitmap, 0, 0);
+
 
 
     while(!al_key_down(&keyboard, ALLEGRO_KEY_ESCAPE)){
