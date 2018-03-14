@@ -78,6 +78,7 @@ int main(){
     al_destroy_bitmap(dog);
     al_destroy_bitmap(cat);
     al_destroy_bitmap(start_background);
+    al_destroy_bitmap(background);
     al_destroy_display( display );
     return 0;
 }
