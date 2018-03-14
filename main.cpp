@@ -14,6 +14,7 @@ using namespace std;
 
 int main(){
     bool end_menu_start = false;
+    bool clear_display = false;
 
     al_init();
     al_install_keyboard();
@@ -35,6 +36,7 @@ int main(){
     ALLEGRO_MOUSE_CURSOR *cursor = al_create_mouse_cursor(cursor_bitmap, 0, 0);
 
 
+    al_clear_to_color(al_map_rgb(0,0,0));
 
     while(!al_key_down(&keyboard, ALLEGRO_KEY_ESCAPE))
     {
@@ -49,6 +51,7 @@ int main(){
 
         if(end_menu_start==true)
         {
+
             //game functions here
             cout << endl << "Game start" << endl;
         }
