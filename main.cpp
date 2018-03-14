@@ -27,7 +27,9 @@ int main(){
     if(!display)
         cout<<"failed to load display";
 
+
     ALLEGRO_BITMAP *start_background = load_bitmap("img//start_background.png");
+    ALLEGRO_BITMAP *background = load_bitmap("img//background.png");
     ALLEGRO_BITMAP *dog = load_bitmap("img//dog.png");
     ALLEGRO_BITMAP *cat = load_bitmap("img//cat.png");
     ALLEGRO_BITMAP *one_player = load_bitmap("img//1 player.png");
@@ -47,22 +49,27 @@ int main(){
         if(end_menu_start==false)
         {
             end_menu_start = run_menu_start(mouse, display, cursor, end_menu_start);
+            al_draw_bitmap(start_background,0,0,0);
+            al_draw_bitmap(dog,130,390,0);
+            al_draw_bitmap(cat,500,380,0);
+            al_draw_bitmap(one_player, 320, 150, 0);
+            al_draw_bitmap(two_player, 300, 230, 0);
+            al_flip_display();
         }
 
         if(end_menu_start==true)
         {
-
             //game functions here
+            check_move(keyboard);
             cout << endl << "Game start" << endl;
+            al_draw_bitmap(background,0,0,0);
+            al_draw_bitmap(dog,130,390,0);
+            al_draw_bitmap(cat,500,380,0);
+            al_flip_display();
         }
 
 
-        al_draw_bitmap(start_background,0,0,0);
-        al_draw_bitmap(dog,130,390,0);
-        al_draw_bitmap(cat,500,380,0);
-        al_draw_bitmap(one_player, 320, 150, 0);
-        al_draw_bitmap(two_player, 300, 230, 0);
-        al_flip_display();
+
     }//END GAME LOOP
 
     al_destroy_bitmap(cursor_bitmap);
