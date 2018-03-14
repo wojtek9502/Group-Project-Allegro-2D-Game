@@ -13,6 +13,7 @@
 using namespace std;
 
 int main(){
+    bool end_menu_start = false;
 
     al_init();
     al_install_keyboard();
@@ -41,7 +42,17 @@ int main(){
         al_get_mouse_state(&mouse);
         al_set_system_mouse_cursor(display, ALLEGRO_SYSTEM_MOUSE_CURSOR_DEFAULT);
 
-        run_menu_start(mouse,display,cursor);
+        if(end_menu_start==false)
+        {
+            end_menu_start = run_menu_start(mouse, display, cursor, end_menu_start);
+        }
+
+        if(end_menu_start==true)
+        {
+            //game functions here
+            cout << endl << "Game start" << endl;
+        }
+
 
         al_draw_bitmap(start_background,0,0,0);
         al_draw_bitmap(dog,130,390,0);
