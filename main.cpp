@@ -38,8 +38,6 @@ int main(){
     ALLEGRO_MOUSE_CURSOR *cursor = al_create_mouse_cursor(cursor_bitmap, 0, 0);
 
 
-    al_clear_to_color(al_map_rgb(0,0,0));
-
     while(!al_key_down(&keyboard, ALLEGRO_KEY_ESCAPE))
     {
         al_get_keyboard_state(&keyboard);
@@ -54,19 +52,20 @@ int main(){
             al_draw_bitmap(cat,500,380,0);
             al_draw_bitmap(one_player, 320, 150, 0);
             al_draw_bitmap(two_player, 300, 230, 0);
-            al_flip_display();
+
         }
 
         if(end_menu_start==true)
         {
             //game functions here
             check_move(keyboard);
-            cout << endl << "Game start" << endl;
+            //cout << endl << "Game start" << endl;
             al_draw_bitmap(background,0,0,0);
             al_draw_bitmap(dog,130,390,0);
             al_draw_bitmap(cat,500,380,0);
-            al_flip_display();
+
         }
+al_flip_display();
 
 
 
