@@ -4,8 +4,6 @@ using namespace std;
 
 bool run_menu_start(ALLEGRO_MOUSE_STATE mouse, ALLEGRO_DISPLAY* display, ALLEGRO_MOUSE_CURSOR* cursor, bool end_menu_start)
 {
-    al_get_mouse_state(&mouse);
-    al_set_system_mouse_cursor(display, ALLEGRO_SYSTEM_MOUSE_CURSOR_DEFAULT);
 
      if((mouse.x >=300 && mouse.x <=500) && (mouse.y >= 150 && mouse.y <=201))
         {
