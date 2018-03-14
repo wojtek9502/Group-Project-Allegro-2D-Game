@@ -59,7 +59,6 @@ int main(){
         {
             //game functions here
             check_move(keyboard);
-            //cout << endl << "Game start" << endl;
             al_draw_bitmap(background,0,0,0);
             al_draw_bitmap(dog,130,390,0);
             al_draw_bitmap(cat,500,380,0);
