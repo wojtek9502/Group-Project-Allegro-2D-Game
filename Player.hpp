@@ -15,6 +15,16 @@ public:
         this->hp=hp;
     }
 
+    void move_left(int pixels=1)
+    {
+        x_position = x_position-pixels;
+    }
+
+    void move_right(int pixels=1)
+    {
+        x_position = x_position+pixels;
+    }
+
 };
 
 

@@ -1,5 +1,6 @@
 #ifndef GAME_HPP_INCLUDED
 #define GAME_HPP_INCLUDED
+#include "player.hpp"
 using namespace std;
 
 bool run_menu_start(ALLEGRO_MOUSE_STATE mouse, ALLEGRO_DISPLAY* display, ALLEGRO_MOUSE_CURSOR* cursor, bool end_menu_start)
@@ -31,32 +32,38 @@ bool run_menu_start(ALLEGRO_MOUSE_STATE mouse, ALLEGRO_DISPLAY* display, ALLEGRO
     return end_menu_start;
 }
 
-void check_move(ALLEGRO_KEYBOARD_STATE keyboard){
+Player check_dog_move(ALLEGRO_KEYBOARD_STATE keyboard, Player dog){
 
     if(al_key_down(&keyboard, ALLEGRO_KEY_A))
     {
-       cout << "pies w lewo" << endl;
-
+       //cout << "pies w lewo" << endl;
+       dog.move_left();
     }
 
     if(al_key_down(&keyboard, ALLEGRO_KEY_D))
     {
-        cout << "pies w prawo" << endl;
+        //cout << "pies w prawo" << endl;
+        dog.move_right();
     }
 
-    if(al_key_down(&keyboard, ALLEGRO_KEY_J))
+    return dog;
+}
+
+Player check_cat_move(ALLEGRO_KEYBOARD_STATE keyboard, Player cat)
+{
+ if(al_key_down(&keyboard, ALLEGRO_KEY_J))
     {
-        cout << "kot w lewo" << endl;
+        //cout << "kot w lewo" << endl;
+        cat.move_left();
     }
 
     if(al_key_down(&keyboard, ALLEGRO_KEY_L))
     {
-        cout << "kot w prawo" << endl;
+        //cout << "kot w prawo" << endl;
+        cat.move_right();
     }
-
+    return cat;
 }
-
-
 
 
 #endif // GAME_HPP_INCLUDED

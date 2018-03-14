@@ -3,6 +3,7 @@
 #include <allegro5/allegro.h>
 #include<allegro5/allegro_image.h>
 #include<allegro5/allegro_primitives.h>
+#include<vector>
 
 #include "system_functions.hpp"
 #include "game.hpp"
@@ -61,7 +62,9 @@ int main(){
         if(end_menu_start==true)
         {
             //game functions here
-            check_move(keyboard);
+            dog = check_dog_move(keyboard,dog);
+            cat = check_cat_move(keyboard,cat);
+            //cout << dog.x_position << endl << cat.x_position;
             al_draw_bitmap(background,0,0,0);
             al_draw_bitmap(dog_bitmap, dog.x_position, dog.y_position, 0);
             al_draw_bitmap(cat_bitmap, cat.x_position, cat.y_position,0);
