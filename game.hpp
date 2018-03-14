@@ -2,7 +2,7 @@
 #define GAME_HPP_INCLUDED
 using namespace std;
 
-void menu_start(ALLEGRO_MOUSE_STATE mouse, ALLEGRO_DISPLAY* display, ALLEGRO_MOUSE_CURSOR* cursor)
+void run_menu_start(ALLEGRO_MOUSE_STATE mouse, ALLEGRO_DISPLAY* display, ALLEGRO_MOUSE_CURSOR* cursor)
 {
      if((mouse.x >=300 && mouse.x <=500) && (mouse.y >= 150 && mouse.y <=201)){
 
