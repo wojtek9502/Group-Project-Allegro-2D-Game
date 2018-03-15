@@ -9,15 +9,15 @@
 #include "game.hpp"
 #include "player.hpp"
 
-#define width 800
-#define height 537
+#define screen_width 800
+#define screen_height 537
 
 using namespace std;
 
 int main(){
     bool end_menu_start = false;
-    Player dog = Player(130,390,100);
-    Player cat = Player(500,380,100);
+    Player dog = Player("dog",130,390,100);
+    Player cat = Player("cat",500,380,100);
 
 
     al_init();
@@ -27,15 +27,19 @@ int main(){
     ALLEGRO_KEYBOARD_STATE keyboard;
     ALLEGRO_MOUSE_STATE mouse;
 
-    ALLEGRO_DISPLAY *display = al_create_display( width, height );
+    ALLEGRO_DISPLAY *display = al_create_display( screen_width, screen_height );
     if(!display)
         cout<<"failed to load display";
 
 
     ALLEGRO_BITMAP *start_background = load_bitmap("img//start_background.png");
     ALLEGRO_BITMAP *background = load_bitmap("img//background.png");
+
     ALLEGRO_BITMAP *dog_bitmap = load_bitmap("img//dog.png");
     ALLEGRO_BITMAP *cat_bitmap = load_bitmap("img//cat.png");
+    int cat_width = al_get_bitmap_width(cat_bitmap);
+    int dog_width = al_get_bitmap_width(dog_bitmap);
+
     ALLEGRO_BITMAP *one_player = load_bitmap("img//1 player.png");
     ALLEGRO_BITMAP *two_player = load_bitmap("img//2 player.png");
     ALLEGRO_BITMAP *cursor_bitmap = load_bitmap("img//cursor.png");
@@ -62,8 +66,8 @@ int main(){
         if(end_menu_start==true)
         {
             //game functions here
-            dog = check_dog_move(keyboard,dog);
-            cat = check_cat_move(keyboard,cat);
+            dog = check_dog_move(keyboard, dog, screen_width, dog_width);
+            cat = check_cat_move(keyboard, cat, screen_width, cat_width);
             //cout << dog.x_position << endl << cat.x_position;
             al_draw_bitmap(background,0,0,0);
             al_draw_bitmap(dog_bitmap, dog.x_position, dog.y_position, 0);

@@ -32,38 +32,42 @@ bool run_menu_start(ALLEGRO_MOUSE_STATE mouse, ALLEGRO_DISPLAY* display, ALLEGRO
     return end_menu_start;
 }
 
-Player check_dog_move(ALLEGRO_KEYBOARD_STATE keyboard, Player dog){
+Player check_dog_move(ALLEGRO_KEYBOARD_STATE keyboard, Player dog, int screen_width, int dog_width){
 
     if(al_key_down(&keyboard, ALLEGRO_KEY_A))
     {
-       //cout << "pies w lewo" << endl;
-       dog.move_left();
+      if(dog.x_position>0)
+            dog.move_left();
     }
 
     if(al_key_down(&keyboard, ALLEGRO_KEY_D))
     {
-        //cout << "pies w prawo" << endl;
-        dog.move_right();
+        if( dog.x_position < (screen_width/2-dog_width) )
+            dog.move_right();
     }
 
     return dog;
 }
 
-Player check_cat_move(ALLEGRO_KEYBOARD_STATE keyboard, Player cat)
+Player check_cat_move(ALLEGRO_KEYBOARD_STATE keyboard, Player cat, int screen_width, int cat_width)
 {
  if(al_key_down(&keyboard, ALLEGRO_KEY_J))
     {
-        //cout << "kot w lewo" << endl;
-        cat.move_left();
+        if(cat.x_position > screen_width/2)
+            cat.move_left();
     }
 
     if(al_key_down(&keyboard, ALLEGRO_KEY_L))
     {
-        //cout << "kot w prawo" << endl;
-        cat.move_right();
+        if( cat.x_position < (screen_width-cat_width) )
+            cat.move_right();
     }
     return cat;
 }
 
+bool dog_allowed_x_position(Player dog)
+{
+
+}
 
 #endif // GAME_HPP_INCLUDED
