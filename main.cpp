@@ -43,6 +43,7 @@ int main(){
     ALLEGRO_BITMAP *one_player = load_bitmap("img//1 player.png");
     ALLEGRO_BITMAP *two_player = load_bitmap("img//2 player.png");
     ALLEGRO_BITMAP *cursor_bitmap = load_bitmap("img//cursor.png");
+    ALLEGRO_BITMAP *wall = load_bitmap("img//wall.png");
     ALLEGRO_MOUSE_CURSOR *cursor = al_create_mouse_cursor(cursor_bitmap, 0, 0);
 
 
@@ -72,6 +73,7 @@ int main(){
             al_draw_bitmap(background,0,0,0);
             al_draw_bitmap(dog_bitmap, dog.x_position, dog.y_position, 0);
             al_draw_bitmap(cat_bitmap, cat.x_position, cat.y_position,0);
+            al_draw_bitmap(wall, screen_width/2, 370, 0);
 
         }
 

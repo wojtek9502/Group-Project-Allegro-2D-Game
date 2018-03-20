@@ -6,8 +6,8 @@ class Player{
 
 public:
     string name;
-    int x_position;
-    int y_position;
+    float x_position;
+    float y_position;
     int hp;
 
 
@@ -19,12 +19,12 @@ public:
         this->hp=hp;
     }
 
-    void move_left(int pixels=1)
+    void move_left(float pixels=0.05)
     {
         x_position = x_position-pixels;
     }
 
-    void move_right(int pixels=1)
+    void move_right(float pixels=0.05)
     {
         x_position = x_position+pixels;
     }

@@ -36,13 +36,13 @@ Player check_dog_move(ALLEGRO_KEYBOARD_STATE keyboard, Player dog, int screen_wi
 
     if(al_key_down(&keyboard, ALLEGRO_KEY_A))
     {
-      if(dog.x_position>0)
+      if(dog.x_position>0+5)
             dog.move_left();
     }
 
     if(al_key_down(&keyboard, ALLEGRO_KEY_D))
     {
-        if( dog.x_position < (screen_width/2-dog_width) )
+        if( dog.x_position < (screen_width/2-dog_width-20))
             dog.move_right();
     }
 
@@ -53,13 +53,13 @@ Player check_cat_move(ALLEGRO_KEYBOARD_STATE keyboard, Player cat, int screen_wi
 {
  if(al_key_down(&keyboard, ALLEGRO_KEY_J))
     {
-        if(cat.x_position > screen_width/2)
+        if((cat.x_position > screen_width/2+30))
             cat.move_left();
     }
 
     if(al_key_down(&keyboard, ALLEGRO_KEY_L))
     {
-        if( cat.x_position < (screen_width-cat_width) )
+        if( cat.x_position < (screen_width-cat_width-5) )
             cat.move_right();
     }
     return cat;
