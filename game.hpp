@@ -64,7 +64,30 @@ Player check_cat_move(ALLEGRO_KEYBOARD_STATE keyboard, Player cat, int screen_wi
     }
     return cat;
 }
+Player check_hp_dog(Player dog, int x, int y, int dWidth, int dHeight)
+{
 
+    if((dog.x_position + dWidth) > x && dog.x_position < x &&  (dog.y_position + dHeight) > y && dog.y_position < y)
+    {
+        if(dog.hp!=10){
+        dog.hp=dog.hp - 10;
+        cout<<"dodano"<<endl;
+    }
+    }
+    return dog;
+}
+Player check_hp_cat(Player cat, int x, int y, int cWidth, int cHeight)
+{
+
+    if((cat.x_position + cWidth) > x && cat.x_position < x &&  (cat.y_position + cHeight) > y && cat.y_position < y)
+    {
+        if(cat.hp!=0){
+        cat.hp=cat.hp - 10;
+        cout<<"dodano"<<endl;
+    }
+    }
+    return cat;
+}
 bool dog_allowed_x_position(Player dog)
 {
 
