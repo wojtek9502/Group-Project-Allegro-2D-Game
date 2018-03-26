@@ -1,7 +1,6 @@
 #ifndef GAME_HPP_INCLUDED
 #define GAME_HPP_INCLUDED
 #include "player.hpp"
-#include <math.h>
 using namespace std;
 
 bool run_menu_start(ALLEGRO_MOUSE_STATE mouse, ALLEGRO_DISPLAY* display, ALLEGRO_MOUSE_CURSOR* cursor, bool end_menu_start)
@@ -91,28 +90,6 @@ Player check_hp_cat(Player cat, int x, int y, int cWidth, int cHeight)
 }
 bool dog_allowed_x_position(Player dog)
 {
-
-}
-
-void ball_move(float wind_strength, float star_x, float start_y, float start_V){
-    ///wind_strength   ------ 0 ++++++
-
-    const float sin_angle = 0.86602;
-    const float g = 9.8;
-    float H_max = 0;
-    ///if(DOG_ROUND){
-        if(wind_strength >= 0)
-            H_max = ( (pow(start_V, 2) ) * (pow(sin_angle, 2)) ) / ((2*g) + wind_strength);
-        else
-            H_max = ( (pow(start_V, 2) ) * (pow(sin_angle, 2)) ) / ((2*g) - wind_strength);
-    ///}
-    ///if(CAT_ROUND){
-        if(wind_strength <= 0)
-            H_max = ( (pow(start_V, 2) ) * (pow(sin_angle, 2)) ) / ((2*g) + wind_strength);
-        else
-            H_max = ( (pow(start_V, 2) ) * (pow(sin_angle, 2)) ) / ((2*g) - wind_strength);
-    ///}
-
 
 }
 
