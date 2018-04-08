@@ -19,7 +19,6 @@ int main(){
     Player dog = Player("dog",130,390,300);
     Player cat = Player("cat",500,380,300);
 
-
     al_init();
     al_install_keyboard();
     al_install_mouse();
@@ -93,9 +92,9 @@ int main(){
         al_flip_display();
 
 
-
     }//END GAME LOOP
 
+    al_destroy_bitmap(wall);
     al_destroy_bitmap(cursor_bitmap);
     al_destroy_bitmap(two_player);
     al_destroy_bitmap(one_player);
