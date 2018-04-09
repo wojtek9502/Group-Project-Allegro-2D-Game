@@ -5,3 +5,21 @@
 	<allegro5\allegro.h>
 	<allegro5\allegro_image.h>
 
+1523116759 source:c:\users\przemek\documents\github\group-project-allegro-2d-game\main.cpp
+	<iostream>
+	<stdio.h>
+	<allegro5/allegro.h>
+	<allegro5/allegro_image.h>
+	<allegro5/allegro_primitives.h>
+	<vector>
+	"system_functions.hpp"
+	"game.hpp"
+	"player.hpp"
+
+1521064997 c:\users\przemek\documents\github\group-project-allegro-2d-game\system_functions.hpp
+
+1523116767 c:\users\przemek\documents\github\group-project-allegro-2d-game\game.hpp
+	"player.hpp"
+
+1523116717 c:\users\przemek\documents\github\group-project-allegro-2d-game\player.hpp
+

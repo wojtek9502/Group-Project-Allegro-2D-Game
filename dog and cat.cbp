@@ -36,7 +36,10 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="Player.hpp" />
+		<Unit filename="game.hpp" />
 		<Unit filename="main.cpp" />
+		<Unit filename="system_functions.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
