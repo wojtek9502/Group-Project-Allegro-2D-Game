@@ -11,7 +11,7 @@
 
 #define screen_width 800
 #define screen_height 537
-
+const float FPS = 60;
 using namespace std;
 
 int main(){
@@ -24,9 +24,11 @@ int main(){
     al_install_mouse();
     al_init_image_addon();
     al_init_primitives_addon();
+    ALLEGRO_TIMER *timer = NULL;
     ALLEGRO_KEYBOARD_STATE keyboard;
     ALLEGRO_MOUSE_STATE mouse;
     ALLEGRO_EVENT_QUEUE *eventQueue = NULL;
+    timer = al_create_timer(1.0 / FPS);
     ALLEGRO_DISPLAY *display = al_create_display( screen_width, screen_height );
     if(!display)
         cout<<"failed to load display";
@@ -34,23 +36,27 @@ int main(){
 
     ALLEGRO_BITMAP *start_background = load_bitmap("img//start_background.png");
     ALLEGRO_BITMAP *background = load_bitmap("img//background.png");
-
     ALLEGRO_BITMAP *dog_bitmap = load_bitmap("img//dog.png");
     ALLEGRO_BITMAP *cat_bitmap = load_bitmap("img//cat.png");
-    int cat_width = al_get_bitmap_width(cat_bitmap);
-    int dog_width = al_get_bitmap_width(dog_bitmap);
-    int cat_height = al_get_bitmap_height(cat_bitmap);
-    int dog_height = al_get_bitmap_height(dog_bitmap);
     ALLEGRO_BITMAP *one_player = load_bitmap("img//1 player.png");
     ALLEGRO_BITMAP *two_player = load_bitmap("img//2 player.png");
     ALLEGRO_BITMAP *cursor_bitmap = load_bitmap("img//cursor.png");
     ALLEGRO_BITMAP *wall = load_bitmap("img//wall.png");
+    int cat_width = al_get_bitmap_width(cat_bitmap);
+    int dog_width = al_get_bitmap_width(dog_bitmap);
+    int cat_height = al_get_bitmap_height(cat_bitmap);
+    int dog_height = al_get_bitmap_height(dog_bitmap);
     ALLEGRO_MOUSE_CURSOR *cursor = al_create_mouse_cursor(cursor_bitmap, 0, 0);
     eventQueue = al_create_event_queue();
-
+    if (!eventQueue){
+    cout<<"failed to load";
+    }
+    al_register_event_source(eventQueue, al_get_display_event_source(display));
+    al_register_event_source(eventQueue, al_get_timer_event_source(timer));
     al_register_event_source(eventQueue, al_get_keyboard_event_source());
     al_register_event_source(eventQueue, al_get_mouse_event_source());
 
+    al_start_timer(timer);
     while(!al_key_down(&keyboard, ALLEGRO_KEY_ESCAPE))
     {
         al_get_keyboard_state(&keyboard);
