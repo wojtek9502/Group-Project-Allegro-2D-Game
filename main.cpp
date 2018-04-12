@@ -86,8 +86,9 @@ int main(){
             al_draw_filled_rectangle(10, 10,dog.hp,25, al_map_rgb(255, 0, 0));
             al_draw_filled_rectangle(490, 10,490+cat.hp,25, al_map_rgb(120, 0, 0));
 
-            al_draw_line( cat.x_arrow_start, cat.y_arrow_start,  cat.x_arrow_end, cat.y_arrow_end, al_map_rgb(255,0,0), 3);
-            al_draw_line( dog.x_arrow_start, dog.y_arrow_start,  dog.x_arrow_end, dog.y_arrow_end, al_map_rgb(255,0,0), 3);
+            al_draw_line( cat.x_position, cat.y_position,  cat.x_arrow_point, cat.y_arrow_point, al_map_rgb(255,0,0), 3);
+            al_draw_line( dog.x_position+dog_width, dog.y_position,  dog.x_arrow_point+dog_width, dog.y_arrow_point, al_map_rgb(0,0,255), 3);
+
 
             al_draw_bitmap(wall, screen_width/2, 370, 0);
 

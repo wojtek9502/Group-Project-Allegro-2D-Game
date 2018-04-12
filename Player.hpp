@@ -1,6 +1,7 @@
 #ifndef PLAYER_HPP_INCLUDED
 #define PLAYER_HPP_INCLUDED
 #include<math.h>
+#define ARROW_LENGHT 80.0
 
 using namespace std;
 class Player{
@@ -10,26 +11,32 @@ public:
     float x_position;
     float y_position;
     int hp;
-    float x_arrow_start;
-    float x_arrow_end;
-    float y_arrow_start;
-    float y_arrow_end;
+    float x_rotate_point;
+    float y_rotate_point;
+    float x_arrow_point;
+    float y_arrow_point;
     float arrow_angle;
 
 
 
-    Player(string name, int x_position, int y_position, int hp=100, float arrow_angle=90)
+    Player(string name, int x_position, int y_position, int hp=100)
     {
         this->name=name;
         this->x_position=x_position;
         this->y_position=y_position;
         this->hp=hp;
-        this->x_arrow_start=x_position;
-        this->x_arrow_end=x_position+50;
-        this->y_arrow_start=y_position;
-        this->y_arrow_end=y_position+50;
-        this->arrow_angle=0.0;
 
+        this->x_arrow_point=x_position;
+        this->y_arrow_point=y_position;
+        this->x_rotate_point=x_position;
+        this->y_arrow_point=y_position;
+
+        if(this->name=="dog"){
+            this->arrow_angle=95;
+        }
+        else{
+            this->arrow_angle=-165;
+        }
 
     }
 
@@ -45,25 +52,32 @@ public:
 
     void move_arrow(double angle, Player player)
     {
-         //convert degrees to radians
-         double radian_angle = conv_to_radian( arrow_angle + angle);
+
+            //add angle param to current, check angle restrict, convert degrees to radians, and init variables for formula
+             arrow_angle += angle;
+             float arrow_angle_radians = conv_to_radian(arrow_angle);
+             float x1 = x_position+ARROW_LENGHT;   // x punktu obracanego (wartosc po + reguluje dlugosc strzalki)
+             float x2 = x_position;  // x punktu srodka obrotu
+             float y1 = y_position+ARROW_LENGHT;   // y punktu obracanego (wartosc po + reguluje dlugosc strzalki)
+             float y2 = y_position;  // y punktu srodka obrotu
 
 
-        //caltulate new arrow_end coordinates
-        float x_arrow_end_prim = ( (x_arrow_end)*cos(radian_angle) ) - ( y_arrow_end*sin(radian_angle) );
-        float y_arrow_end_prim = ( x_arrow_end*sin(radian_angle) ) + ( y_arrow_end*cos(radian_angle) );
 
-        //set arrow position
-        x_arrow_start = x_position;
-        y_arrow_start = y_position;
-        x_arrow_end = x_arrow_end_prim;
-        y_arrow_end = y_arrow_end_prim;
+            //caltulate new arrow_end coordinates, x3 and y3 are coordinates a new rotate point
+            float x3 = ((x1-x2)*cos(arrow_angle_radians) + (y1-y2)*sin(arrow_angle_radians) + x2);
+            float y3 = -((x1-x2)*sin(arrow_angle_radians) - (y1-y2)*cos(arrow_angle_radians) - y2);
 
-        cout << "arrow_start=(" << x_arrow_start << ", " << y_arrow_start << ")" << endl;
-        cout << "arrow_end=(" << x_arrow_end << ", " << y_arrow_end << ")" << endl;
-        cout << "radian angle:" <<  arrow_angle+angle << endl;
-        cout << "sin angle: " << sin(radian_angle) << endl;
-        cout << "cos angle: " << cos(radian_angle) << endl;
+            //set arrow position
+            x_arrow_point = x3;
+            y_arrow_point = y3;
+
+
+
+
+            //cout << "arrow_end=(" << x_arrow_point << ", " << y_arrow_point << ")" << endl;
+           // cout << "sin angle: " << sin(arrow_angle_radians) << endl;
+           // cout << "cos angle: " << cos(arrow_angle_radians) << endl;
+            //cout << "angle: " << arrow_angle << endl;
 
     }
 
@@ -71,6 +85,7 @@ double conv_to_radian(double degree_angle)
 {
     return degree_angle * (M_PI/180);
 }
+
 
 };
 
