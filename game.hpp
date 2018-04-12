@@ -65,6 +65,20 @@ Player check_cat_move(ALLEGRO_KEYBOARD_STATE keyboard, Player cat, int screen_wi
         if( cat.x_position < (screen_width-cat_width-5) )
             cat.move_right();
     }
+
+    //arrow move
+    if(al_key_down(&keyboard, ALLEGRO_KEY_I))
+    {
+
+            cat.move_arrow(+1, cat);
+    }
+
+    if(al_key_down(&keyboard, ALLEGRO_KEY_K))
+    {
+            cat.move_arrow(-1, cat);
+    }
+
+
     return cat;
 }
 Player check_hp_dog(Player dog, int x, int y, int dWidth, int dHeight)

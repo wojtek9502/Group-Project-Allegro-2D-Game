@@ -3,7 +3,6 @@
 #include <allegro5/allegro.h>
 #include<allegro5/allegro_image.h>
 #include<allegro5/allegro_primitives.h>
-#include<vector>
 
 #include "system_functions.hpp"
 #include "game.hpp"
@@ -60,6 +59,7 @@ int main(){
         al_wait_for_event(eventQueue, &ev);
         if(end_menu_start==false)
         {
+
             end_menu_start = run_menu_start(mouse, display, cursor, end_menu_start);
             al_draw_bitmap(start_background,0,0,0);
             al_draw_bitmap(dog_bitmap, dog.x_position, dog.y_position, 0);
@@ -85,6 +85,10 @@ int main(){
             al_draw_bitmap(cat_bitmap, cat.x_position, cat.y_position,0);
             al_draw_filled_rectangle(10, 10,dog.hp,25, al_map_rgb(255, 0, 0));
             al_draw_filled_rectangle(490, 10,490+cat.hp,25, al_map_rgb(120, 0, 0));
+
+            al_draw_line( cat.x_arrow_start, cat.y_arrow_start,  cat.x_arrow_end, cat.y_arrow_end, al_map_rgb(255,0,0), 3);
+            al_draw_line( dog.x_arrow_start, dog.y_arrow_start,  dog.x_arrow_end, dog.y_arrow_end, al_map_rgb(255,0,0), 3);
+
             al_draw_bitmap(wall, screen_width/2, 370, 0);
 
         }
