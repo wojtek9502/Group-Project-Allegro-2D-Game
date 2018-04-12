@@ -53,13 +53,33 @@ public:
     void move_arrow(double angle, Player player)
     {
 
-            //add angle param to current, check angle restrict, convert degrees to radians, and init variables for formula
+            //add angle param to current arrow_angle in Player class
              arrow_angle += angle;
+
+            //check angle restrict
+             if(player.name.compare("dog")==0)
+            {
+                if(arrow_angle<45)
+                    arrow_angle = 45;
+                if(arrow_angle>135)
+                    arrow_angle = 135;
+            }
+            else
+            {
+                if(arrow_angle<-225)
+                    arrow_angle = -225;
+                if(arrow_angle>-135)
+                    arrow_angle =-135;
+            }
+
+            //convert degrees to radians
              float arrow_angle_radians = conv_to_radian(arrow_angle);
+
+             //init variables for formula
              float x1 = x_position+ARROW_LENGHT;   // x punktu obracanego (wartosc po + reguluje dlugosc strzalki)
-             float x2 = x_position;  // x punktu srodka obrotu
+             float x2 = x_position;                // x punktu srodka obrotu
              float y1 = y_position+ARROW_LENGHT;   // y punktu obracanego (wartosc po + reguluje dlugosc strzalki)
-             float y2 = y_position;  // y punktu srodka obrotu
+             float y2 = y_position;                // y punktu srodka obrotu
 
 
 
@@ -67,12 +87,9 @@ public:
             float x3 = ((x1-x2)*cos(arrow_angle_radians) + (y1-y2)*sin(arrow_angle_radians) + x2);
             float y3 = -((x1-x2)*sin(arrow_angle_radians) - (y1-y2)*cos(arrow_angle_radians) - y2);
 
-            //set arrow position
+            //set arrow position in Player class
             x_arrow_point = x3;
             y_arrow_point = y3;
-
-
-
 
             //cout << "arrow_end=(" << x_arrow_point << ", " << y_arrow_point << ")" << endl;
            // cout << "sin angle: " << sin(arrow_angle_radians) << endl;
@@ -85,6 +102,7 @@ double conv_to_radian(double degree_angle)
 {
     return degree_angle * (M_PI/180);
 }
+
 
 
 };
