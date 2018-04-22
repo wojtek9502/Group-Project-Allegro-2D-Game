@@ -125,42 +125,25 @@ bool dog_allowed_x_position(Player dog)
 
 }
 
-void ball_position(float start_force, float wind_force, int angle, float start_x, float start_y){
-    float x = start_x;
-    float y = start_y;
-    const float g = 9.81;
-    float max_height_time = (start_force * sin(angle*PI/180))/(g);
-    float time = max_height_time;
-    float tmp_x, tmp_y;
+void ball_position(float Vo, float angle, float wind, float start_x, float start_y){
+    float x;
+    float y;
+    float g = 9.80665;
+    float e = 2.718281828459;
+    float time = 1;
+    float step = 0.1;
+    float ball_x = start_x;
+    float ball_y = start_y;
 
-    ///wind force -----0+++++
-   /// if(dog_turn == true){
-        if(wind_force >= 0)
-            start_force += wind_force;
-        else
-            start_force -= wind_force;
-///     }
-///    else{
-        if(wind_force <= 0)
-            start_force += wind_force;
-        else
-            start_force -= wind_force;
-///    }
+    while(ball_y > 0){
+        cout<<"x: "<<ball_x<<" y: "<<ball_y<<endl;
+        x = (Vo * cos(angle*PI/180) / wind) * (1 - pow(e, -wind*time));
+        y = ((Vo * sin(angle*PI/180) / wind) + (g/wind) ) * (1 - pow(e, -wind*time)) - (g*time/wind);
 
-    while(time >= 0){
-        tmp_x = start_force*time*cos(angle*PI/180);
-        tmp_y = start_force*time*sin(angle*PI/180)*(g*pow(time,2)/2);
-        x+=tmp_x;
-        y+=tmp_y;
-        time-=0.1;
-    }
+        ball_x += x*step;
+        ball_y += y*step;
 
-    while(time <= max_height_time ){
-        tmp_x = start_force*time*cos(angle*PI/180);
-        tmp_y = start_force*time*sin(angle*PI/180)*(g*pow(time,2)/2);
-        x+=tmp_x;
-        y-=tmp_y;
-        time+=0.1;
+        time +=step;
     }
 
 }

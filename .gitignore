@@ -52,3 +52,8 @@ Temporary Items
 .cbp
 .layout
 .o
+
+*.log
+*.exe
+*.layout
+*.o
