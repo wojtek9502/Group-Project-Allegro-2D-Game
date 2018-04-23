@@ -18,7 +18,7 @@ int main(){
     Player dog = Player("dog",130,390,300);
     Player cat = Player("cat",500,380,300);
 
-    ball_position(30, 45, 10, 30, 30);
+    ball_position(50, 45, 10, 30, 30);
 
     al_init();
     al_install_keyboard();

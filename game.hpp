@@ -128,6 +128,7 @@ bool dog_allowed_x_position(Player dog)
 void ball_position(float Vo, float angle, float wind, float start_x, float start_y){
     float x;
     float y;
+    float constant_wind = 10;
     float g = 9.80665;
     float e = 2.718281828459;
     float time = 1;
@@ -137,7 +138,7 @@ void ball_position(float Vo, float angle, float wind, float start_x, float start
 
     while(ball_y > 0){
         cout<<"x: "<<ball_x<<" y: "<<ball_y<<endl;
-        x = (Vo * cos(angle*PI/180) / wind) * (1 - pow(e, -wind*time));
+        x = (Vo * cos(angle*PI/180) / constant_wind) * (1 - pow(e, -constant_wind*time));
         y = ((Vo * sin(angle*PI/180) / wind) + (g/wind) ) * (1 - pow(e, -wind*time)) - (g*time/wind);
 
         ball_x += x*step;
