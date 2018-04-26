@@ -2,7 +2,7 @@
 #define GAME_HPP_INCLUDED
 #include "player.hpp"
 #include "math.h"
-
+#include <list>
 #define PI 3.14159265
 using namespace std;
 
@@ -125,7 +125,7 @@ bool dog_allowed_x_position(Player dog)
 
 }
 
-void ball_position(float Vo, float angle, float wind, float start_x, float start_y){
+list<float> ball_position(float Vo, float angle, float wind, float start_x, float start_y){
     float x;
     float y;
     float constant_wind = 10;
@@ -135,18 +135,21 @@ void ball_position(float Vo, float angle, float wind, float start_x, float start
     float step = 0.1;
     float ball_x = start_x;
     float ball_y = start_y;
+    list<float> x_y_position;
 
     while(ball_y > 0){
-        cout<<"x: "<<ball_x<<" y: "<<ball_y<<endl;
         x = (Vo * cos(angle*PI/180) / constant_wind) * (1 - pow(e, -constant_wind*time));
         y = ((Vo * sin(angle*PI/180) / wind) + (g/wind) ) * (1 - pow(e, -wind*time)) - (g*time/wind);
 
         ball_x += x*step;
         ball_y += y*step;
 
+        x_y_position.push_back(ball_x);
+        x_y_position.push_back(ball_y);
         time +=step;
     }
 
+    return x_y_position;
 }
 
 #endif // GAME_HPP_INCLUDED
