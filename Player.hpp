@@ -16,6 +16,7 @@ public:
     float x_arrow_point;
     float y_arrow_point;
     float arrow_angle;
+    float Vo;
 
 
 

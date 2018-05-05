@@ -10,6 +10,7 @@
 #include "game.hpp"
 #include "player.hpp"
 #include "Turn.hpp"
+#include "ball.hpp"
 
 #define screen_width 800
 #define screen_height 537
@@ -21,7 +22,7 @@
 
 
 
-
+bool end_game = false;
 const float FPS = 60;
 using namespace std;
 
@@ -30,8 +31,6 @@ int main(){
     Player dog = Player("dog",130,390,300);
     Player cat = Player("cat",500,380,300);
     Turn game_turn = Turn(); // obiekt tury, zaczyna pies
-
-    ball_position(50, 45, 10, 30, 30);
 
     al_init();
     al_install_keyboard();
@@ -60,7 +59,8 @@ int main(){
     ALLEGRO_BITMAP *dog_bitmap = load_bitmap("img//dog.png");
     ALLEGRO_BITMAP *cat_bitmap = load_bitmap("img//cat.png");
     ALLEGRO_BITMAP *cursor_bitmap = load_bitmap("img//cursor.png");
-    ALLEGRO_BITMAP *wall = load_bitmap("img//wall.png");
+    ALLEGRO_BITMAP *wall_bitmap = load_bitmap("img//wall.png");
+    ALLEGRO_BITMAP *ball_bitmap = load_bitmap("img//ball.png");
     int cat_width = al_get_bitmap_width(cat_bitmap);
     int dog_width = al_get_bitmap_width(dog_bitmap);
     int cat_height = al_get_bitmap_height(cat_bitmap);
@@ -84,9 +84,9 @@ int main(){
         al_set_system_mouse_cursor(display, ALLEGRO_SYSTEM_MOUSE_CURSOR_DEFAULT);
         ALLEGRO_EVENT ev;
         al_wait_for_event(eventQueue, &ev);
+
         if(end_menu_start==false)
         {
-
             end_menu_start = run_menu_start(mouse, display, cursor, end_menu_start);
             al_draw_bitmap(background,0,0,0);
             al_draw_bitmap(dog_bitmap, dog.x_position, dog.y_position, 0);
@@ -100,17 +100,23 @@ int main(){
         if(end_menu_start==true)
         {
             //game functions here
-            //check_end_game(dog, cat, font_title_size_obj, screen_width);
-
-            dog = check_dog_move(keyboard, dog, screen_width, dog_width, game_turn);
-            cat = check_cat_move(keyboard, cat, screen_width, cat_width, game_turn);
-            //cout << dog.x_position << endl << cat.x_position;
-            if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
+            if(end_game == false)
             {
-               dog = check_hp_dog(dog, ev.mouse.x, ev.mouse.y, dog_width, dog_height);
-               cat = check_hp_cat(cat, ev.mouse.x, ev.mouse.y, cat_width, cat_height);
+                dog = check_dog_move(keyboard, dog, screen_width, dog_width, game_turn);
+                cat = check_cat_move(keyboard, cat, screen_width, cat_width, game_turn);
+
+
+                if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
+                {
+                   dog = check_hp_dog(dog, ev.mouse.x, ev.mouse.y, dog_width, dog_height);
+                   cat = check_hp_cat(cat, ev.mouse.x, ev.mouse.y, cat_width, cat_height);
+                }
+                //check turn change
+                game_turn.check_change_turn(keyboard, ev);
             }
 
+
+            // draw elements here
             // draw players elements
             al_draw_bitmap(background,0,0,0);
             al_draw_bitmap(dog_bitmap, dog.x_position, dog.y_position, 0);
@@ -125,11 +131,22 @@ int main(){
             al_draw_text(font_small_size_obj, al_map_rgb(255, 0, 0), 750, 40, ALLEGRO_ALIGN_CENTRE, prepate_hp_text(cat.hp).c_str());
 
             //draw wall and turn text
-            al_draw_bitmap(wall, screen_width/2, 370, 0);
+            al_draw_bitmap(wall_bitmap, screen_width/2, 370, 0);
             al_draw_text(font_normal_size_obj, al_map_rgb(255, 177, 10), screen_width/2, 40, ALLEGRO_ALIGN_CENTRE, game_turn.whose_turn_text.c_str());
 
-            //check turn change
-            game_turn.check_change_turn(keyboard, ev);
+            //al_draw_bitmap(ball_bitmap, ball.ball_position_x, ball.ball_position_y, 0);
+
+
+
+            // end game check
+            if(cat.hp <= 0){
+                al_draw_text(font_title_size_obj, al_map_rgb(255, 177, 10), screen_width/2, 100, ALLEGRO_ALIGN_CENTRE, "Wygrał Pies");
+                end_game = true;
+            }
+            if(dog.hp <= 0){
+                al_draw_text(font_title_size_obj, al_map_rgb(255, 177, 10), screen_width/2, 80, ALLEGRO_ALIGN_CENTRE, "Wygrał Kot");
+                end_game = true;
+            }
 
         }
 
@@ -139,7 +156,8 @@ int main(){
 
     }//END GAME LOOP
 
-    al_destroy_bitmap(wall);
+    al_destroy_bitmap(wall_bitmap);
+    al_destroy_bitmap(ball_bitmap);
     al_destroy_bitmap(cursor_bitmap);
     al_destroy_bitmap(dog_bitmap);
     al_destroy_bitmap(cat_bitmap);

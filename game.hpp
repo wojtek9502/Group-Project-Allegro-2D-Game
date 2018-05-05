@@ -3,7 +3,7 @@
 #include "player.hpp"
 #include "math.h"
 #include "Turn.hpp"
-#include <list>
+#include "Ball.hpp"
 #include <sstream>
 #define PI 3.14159265
 using namespace std;
@@ -130,33 +130,6 @@ Player check_hp_cat(Player cat, int x, int y, int cWidth, int cHeight)
     return cat;
 }
 
-list<float> ball_position(float Vo, float angle, float wind, float start_x, float start_y){
-    float x;
-    float y;
-    float constant_wind = 10;
-    float g = 9.80665;
-    float e = 2.718281828459;
-    float time = 1;
-    float step = 0.1;
-    float ball_x = start_x;
-    float ball_y = start_y;
-    list<float> x_y_position;
-
-    while(ball_y > 0){
-        x = (Vo * cos(angle*PI/180) / constant_wind) * (1 - pow(e, -constant_wind*time));
-        y = ((Vo * sin(angle*PI/180) / wind) + (g/wind) ) * (1 - pow(e, -wind*time)) - (g*time/wind);
-
-        ball_x += x*step;
-        ball_y += y*step;
-
-        x_y_position.push_back(ball_x);
-        x_y_position.push_back(ball_y);
-        time +=step;
-    }
-
-    return x_y_position;
-}
-
 string prepate_hp_text(int hp)
 {
     ostringstream output;
@@ -164,19 +137,18 @@ string prepate_hp_text(int hp)
     return output.str();
 }
 
-void check_end_game(Player dog, Player cat, ALLEGRO_FONT *font_title_size_obj, int screen_width)
+void check_end_game(Player dog, Player cat, ALLEGRO_FONT font_title_size_obj[])
 {
     //wygrana psa
     if(cat.hp <= 0){
-        al_clear_to_color(al_map_rgb(0,0,0));
-        al_draw_text(font_title_size_obj, al_map_rgb(255, 177, 10), screen_width/2, 80, ALLEGRO_ALIGN_CENTRE, "Wygrał Pies");
+        al_draw_text(font_title_size_obj, al_map_rgb(255, 177, 10), 800/2, 80, ALLEGRO_ALIGN_CENTRE, "Wygrał Pies");
     }
 
     if(dog.hp <= 0){
-        al_clear_to_color(al_map_rgb(0,0,0));
-        al_draw_text(font_title_size_obj, al_map_rgb(255, 177, 10), screen_width/2, 80, ALLEGRO_ALIGN_CENTRE, "Wygrał Kot");
+        al_draw_text(font_title_size_obj, al_map_rgb(255, 177, 10), 800/2, 80, ALLEGRO_ALIGN_CENTRE, "Wygrał Kot");
     }
 }
+
 
 
 #endif // GAME_HPP_INCLUDED

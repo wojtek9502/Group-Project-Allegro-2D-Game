@@ -41,7 +41,6 @@ public:
                             break;
                         }
                 }
-                 cout << "Zmiana tury, teraz tura: " << whose_turn << endl;
         }
     }
 
