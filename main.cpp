@@ -83,8 +83,8 @@ int main(){
         if(end_menu_start==true)
         {
             //game functions here
-            dog = check_dog_move(keyboard, dog, screen_width, dog_width);
-            cat = check_cat_move(keyboard, cat, screen_width, cat_width);
+            dog = check_dog_move(keyboard, dog, screen_width, dog_width, game_turn);
+            cat = check_cat_move(keyboard, cat, screen_width, cat_width, game_turn);
             //cout << dog.x_position << endl << cat.x_position;
             if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
             {
@@ -103,7 +103,7 @@ int main(){
 
             al_draw_bitmap(wall, screen_width/2, 370, 0);
 
-            game_turn.check_change_turn(keyboard);
+            game_turn.check_change_turn(keyboard, ev);
 
         }
 

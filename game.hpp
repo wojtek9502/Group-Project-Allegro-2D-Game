@@ -36,65 +36,68 @@ bool run_menu_start(ALLEGRO_MOUSE_STATE mouse, ALLEGRO_DISPLAY* display, ALLEGRO
     return end_menu_start;
 }
 
-Player check_dog_move(ALLEGRO_KEYBOARD_STATE keyboard, Player dog, int screen_width, int dog_width){
+Player check_dog_move(ALLEGRO_KEYBOARD_STATE keyboard, Player dog, int screen_width, int dog_width, Turn turn){
 
-    if(al_key_down(&keyboard, ALLEGRO_KEY_A))
+    if(turn.whose_turn == DOG_TURN)
     {
-      if(dog.x_position>0+5)
-            dog.move_left();
-            dog.move_arrow(0, dog);
-    }
+        if(al_key_down(&keyboard, ALLEGRO_KEY_A))
+        {
+          if(dog.x_position>0+5)
+                dog.move_left();
+                dog.move_arrow(0, dog);
+        }
 
-    if(al_key_down(&keyboard, ALLEGRO_KEY_D))
-    {
-        if( dog.x_position < (screen_width/2-dog_width-20))
-            dog.move_right();
-            dog.move_arrow(0, dog);
-    }
+        if(al_key_down(&keyboard, ALLEGRO_KEY_D))
+        {
+            if( dog.x_position < (screen_width/2-dog_width-20))
+                dog.move_right();
+                dog.move_arrow(0, dog);
+        }
 
-     //arrow move
-    if(al_key_down(&keyboard, ALLEGRO_KEY_W))
-    {
-            dog.move_arrow(1, dog);
-    }
+         //arrow move
+        if(al_key_down(&keyboard, ALLEGRO_KEY_W))
+        {
+                dog.move_arrow(1, dog);
+        }
 
-    if(al_key_down(&keyboard, ALLEGRO_KEY_S))
-    {
-            dog.move_arrow(-1, dog);
-    }
+        if(al_key_down(&keyboard, ALLEGRO_KEY_S))
+        {
+                dog.move_arrow(-1, dog);
+        }
 
-    return dog;
+    }
+     return dog;
 }
 
-Player check_cat_move(ALLEGRO_KEYBOARD_STATE keyboard, Player cat, int screen_width, int cat_width)
+Player check_cat_move(ALLEGRO_KEYBOARD_STATE keyboard, Player cat, int screen_width, int cat_width, Turn turn)
 {
-
- if(al_key_down(&keyboard, ALLEGRO_KEY_LEFT))
+    if(turn.whose_turn == CAT_TURN)
     {
-        if((cat.x_position > screen_width/2+30))
-            cat.move_left();
-            cat.move_arrow(0, cat);
+        if(al_key_down(&keyboard, ALLEGRO_KEY_LEFT))
+        {
+            if((cat.x_position > screen_width/2+30))
+                cat.move_left();
+                cat.move_arrow(0, cat);
+        }
+
+        if(al_key_down(&keyboard, ALLEGRO_KEY_RIGHT))
+        {
+            if( cat.x_position < (screen_width-cat_width-5) )
+                cat.move_right();
+                cat.move_arrow(0, cat);
+        }
+
+        //arrow move
+        if(al_key_down(&keyboard, ALLEGRO_KEY_UP))
+        {
+                cat.move_arrow(-1, cat);
+        }
+
+        if(al_key_down(&keyboard, ALLEGRO_KEY_DOWN))
+        {
+                cat.move_arrow(1, cat);
+        }
     }
-
-    if(al_key_down(&keyboard, ALLEGRO_KEY_RIGHT))
-    {
-        if( cat.x_position < (screen_width-cat_width-5) )
-            cat.move_right();
-            cat.move_arrow(0, cat);
-    }
-
-    //arrow move
-    if(al_key_down(&keyboard, ALLEGRO_KEY_UP))
-    {
-            cat.move_arrow(-1, cat);
-    }
-
-    if(al_key_down(&keyboard, ALLEGRO_KEY_DOWN))
-    {
-            cat.move_arrow(1, cat);
-    }
-
-
     return cat;
 }
 Player check_hp_dog(Player dog, int x, int y, int dWidth, int dHeight)
