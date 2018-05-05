@@ -4,13 +4,13 @@
 #include "math.h"
 #include "Turn.hpp"
 #include <list>
+#include <sstream>
 #define PI 3.14159265
 using namespace std;
 
 bool run_menu_start(ALLEGRO_MOUSE_STATE mouse, ALLEGRO_DISPLAY* display, ALLEGRO_MOUSE_CURSOR* cursor, bool end_menu_start)
 {
-
-     if((mouse.x >=300 && mouse.x <=500) && (mouse.y >= 150 && mouse.y <=201))
+     if((mouse.x >=278 && mouse.x <=500) && (mouse.y >= 190 && mouse.y <=215))
         {
 
             printf("one player: (%d, %d)\n", mouse.x, mouse.y);
@@ -22,7 +22,7 @@ bool run_menu_start(ALLEGRO_MOUSE_STATE mouse, ALLEGRO_DISPLAY* display, ALLEGRO
             }
         }
 
-        if((mouse.x >=300 && mouse.x <=500) && (mouse.y >=230 && mouse.y <=281))
+        if((mouse.x >=275 && mouse.x <=510) && (mouse.y >=240 && mouse.y <=281))
         {
             printf("two player: (%d, %d)\n", mouse.x, mouse.y);
             al_set_mouse_cursor(display, cursor);
@@ -105,10 +105,12 @@ Player check_hp_dog(Player dog, int x, int y, int dWidth, int dHeight)
 
     if((dog.x_position + dWidth) > x && dog.x_position < x &&  (dog.y_position + dHeight) > y && dog.y_position < y)
     {
-        if(dog.hp!=10){
         dog.hp=dog.hp - 10;
-        cout<<"dodano"<<endl;
-    }
+        if(dog.hp<0)
+        {
+            dog.hp=0;
+        }
+        cout<<"dog hp: " << dog.hp<<endl;
     }
     return dog;
 }
@@ -117,10 +119,13 @@ Player check_hp_cat(Player cat, int x, int y, int cWidth, int cHeight)
 
     if((cat.x_position + cWidth) > x && cat.x_position < x &&  (cat.y_position + cHeight) > y && cat.y_position < y)
     {
-        if(cat.hp!=0){
         cat.hp=cat.hp - 10;
-        cout<<"dodano"<<endl;
-    }
+        if(cat.hp<0)
+        {
+            cat.hp=0;
+        }
+        cout<<"cat hp: " << cat.hp<<endl;
+
     }
     return cat;
 }
@@ -152,6 +157,26 @@ list<float> ball_position(float Vo, float angle, float wind, float start_x, floa
     return x_y_position;
 }
 
+string prepate_hp_text(int hp)
+{
+    ostringstream output;
+    output << "HP " << hp ;
+    return output.str();
+}
+
+void check_end_game(Player dog, Player cat, ALLEGRO_FONT *font_title_size_obj, int screen_width)
+{
+    //wygrana psa
+    if(cat.hp <= 0){
+        al_clear_to_color(al_map_rgb(0,0,0));
+        al_draw_text(font_title_size_obj, al_map_rgb(255, 177, 10), screen_width/2, 80, ALLEGRO_ALIGN_CENTRE, "Wygrał Pies");
+    }
+
+    if(dog.hp <= 0){
+        al_clear_to_color(al_map_rgb(0,0,0));
+        al_draw_text(font_title_size_obj, al_map_rgb(255, 177, 10), screen_width/2, 80, ALLEGRO_ALIGN_CENTRE, "Wygrał Kot");
+    }
+}
 
 
 #endif // GAME_HPP_INCLUDED

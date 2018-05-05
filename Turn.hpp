@@ -12,11 +12,13 @@ enum Turn_enum
 class Turn {
 public:
      Turn_enum whose_turn;
+     string whose_turn_text;
 
 public:
     Turn()
     {
         whose_turn = DOG_TURN;
+        whose_turn_text = "Tura Psa";
 
     }
 
@@ -29,11 +31,13 @@ public:
                     case DOG_TURN:
                         {
                             whose_turn = CAT_TURN;
+                            whose_turn_text = "Tura Kota";
                             break;
                         }
                     case CAT_TURN:
                         {
                             whose_turn = DOG_TURN;
+                            whose_turn_text = "Tura Psa";
                             break;
                         }
                 }

@@ -3,6 +3,8 @@
 #include <allegro5/allegro.h>
 #include<allegro5/allegro_image.h>
 #include<allegro5/allegro_primitives.h>
+#include<allegro5/allegro_font.h>
+#include<allegro5/allegro_ttf.h>
 
 #include "system_functions.hpp"
 #include "game.hpp"
@@ -11,6 +13,15 @@
 
 #define screen_width 800
 #define screen_height 537
+
+//wielkosci fontow
+#define font_normal_size 40
+#define font_small_size 20
+#define font_title_size 65
+
+
+
+
 const float FPS = 60;
 using namespace std;
 
@@ -27,6 +38,14 @@ int main(){
     al_install_mouse();
     al_init_image_addon();
     al_init_primitives_addon();
+
+    // fonts init
+    al_init_font_addon();
+    al_init_ttf_addon();
+    ALLEGRO_FONT *font_title_size_obj = al_load_font("fonts//font1.ttf", font_title_size, 0);
+    ALLEGRO_FONT *font_normal_size_obj = al_load_font("fonts//font1.ttf", font_normal_size, 0);
+    ALLEGRO_FONT *font_small_size_obj = al_load_font("fonts//font1.ttf", font_small_size, 0);
+
     ALLEGRO_TIMER *timer = NULL;
     ALLEGRO_KEYBOARD_STATE keyboard;
     ALLEGRO_MOUSE_STATE mouse;
@@ -37,12 +56,9 @@ int main(){
         cout<<"failed to load display";
 
 
-    ALLEGRO_BITMAP *start_background = load_bitmap("img//start_background.png");
     ALLEGRO_BITMAP *background = load_bitmap("img//background.png");
     ALLEGRO_BITMAP *dog_bitmap = load_bitmap("img//dog.png");
     ALLEGRO_BITMAP *cat_bitmap = load_bitmap("img//cat.png");
-    ALLEGRO_BITMAP *one_player = load_bitmap("img//1 player.png");
-    ALLEGRO_BITMAP *two_player = load_bitmap("img//2 player.png");
     ALLEGRO_BITMAP *cursor_bitmap = load_bitmap("img//cursor.png");
     ALLEGRO_BITMAP *wall = load_bitmap("img//wall.png");
     int cat_width = al_get_bitmap_width(cat_bitmap);
@@ -72,17 +88,20 @@ int main(){
         {
 
             end_menu_start = run_menu_start(mouse, display, cursor, end_menu_start);
-            al_draw_bitmap(start_background,0,0,0);
+            al_draw_bitmap(background,0,0,0);
             al_draw_bitmap(dog_bitmap, dog.x_position, dog.y_position, 0);
             al_draw_bitmap(cat_bitmap, cat.x_position, cat.y_position,0);
-            al_draw_bitmap(one_player, 320, 150, 0);
-            al_draw_bitmap(two_player, 300, 230, 0);
+            al_draw_text(font_title_size_obj, al_map_rgb(255, 177, 10), screen_width/2, 80, ALLEGRO_ALIGN_CENTRE, "Pies i Kot");
+            al_draw_text(font_normal_size_obj, al_map_rgb(255, 177, 10), screen_width/2, 180, ALLEGRO_ALIGN_CENTRE, "One Player");
+            al_draw_text(font_normal_size_obj, al_map_rgb(255, 177, 10), screen_width/2, 240, ALLEGRO_ALIGN_CENTRE, "Two Players");
 
         }
 
         if(end_menu_start==true)
         {
             //game functions here
+            //check_end_game(dog, cat, font_title_size_obj, screen_width);
+
             dog = check_dog_move(keyboard, dog, screen_width, dog_width, game_turn);
             cat = check_cat_move(keyboard, cat, screen_width, cat_width, game_turn);
             //cout << dog.x_position << endl << cat.x_position;
@@ -91,18 +110,25 @@ int main(){
                dog = check_hp_dog(dog, ev.mouse.x, ev.mouse.y, dog_width, dog_height);
                cat = check_hp_cat(cat, ev.mouse.x, ev.mouse.y, cat_width, cat_height);
             }
+
+            // draw players elements
             al_draw_bitmap(background,0,0,0);
             al_draw_bitmap(dog_bitmap, dog.x_position, dog.y_position, 0);
             al_draw_bitmap(cat_bitmap, cat.x_position, cat.y_position,0);
-            al_draw_filled_rectangle(10, 10,dog.hp,25, al_map_rgb(255, 0, 0));
-            al_draw_filled_rectangle(490, 10,490+cat.hp,25, al_map_rgb(120, 0, 0));
-
             al_draw_line( cat.x_position, cat.y_position,  cat.x_arrow_point, cat.y_arrow_point, al_map_rgb(255,0,0), 3);
             al_draw_line( dog.x_position+dog_width, dog.y_position,  dog.x_arrow_point+dog_width, dog.y_arrow_point, al_map_rgb(0,0,255), 3);
 
+           //draw hp and hp texts
+            al_draw_filled_rectangle(10, 10, 10+dog.hp, 25, al_map_rgb(255, 0, 0));
+            al_draw_filled_rectangle(790-cat.hp, 10, 790, 25, al_map_rgb(255, 0, 0));
+            al_draw_text(font_small_size_obj, al_map_rgb(255, 0, 0), 50, 40, ALLEGRO_ALIGN_CENTRE, prepate_hp_text(dog.hp).c_str());
+            al_draw_text(font_small_size_obj, al_map_rgb(255, 0, 0), 750, 40, ALLEGRO_ALIGN_CENTRE, prepate_hp_text(cat.hp).c_str());
 
+            //draw wall and turn text
             al_draw_bitmap(wall, screen_width/2, 370, 0);
+            al_draw_text(font_normal_size_obj, al_map_rgb(255, 177, 10), screen_width/2, 40, ALLEGRO_ALIGN_CENTRE, game_turn.whose_turn_text.c_str());
 
+            //check turn change
             game_turn.check_change_turn(keyboard, ev);
 
         }
@@ -110,15 +136,13 @@ int main(){
         al_flip_display();
 
 
+
     }//END GAME LOOP
 
     al_destroy_bitmap(wall);
     al_destroy_bitmap(cursor_bitmap);
-    al_destroy_bitmap(two_player);
-    al_destroy_bitmap(one_player);
     al_destroy_bitmap(dog_bitmap);
     al_destroy_bitmap(cat_bitmap);
-    al_destroy_bitmap(start_background);
     al_destroy_bitmap(background);
     al_destroy_display( display );
     return 0;
