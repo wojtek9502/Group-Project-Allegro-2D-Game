@@ -13,13 +13,10 @@
 const float FPS = 60;
 using namespace std;
 
-
-
 int main(){
     bool end_menu_start = false;
-    Player dog = Player("dog",130,390,300, true);
-    Player cat = Player("cat",500,390,300, false);
-
+    Player dog = Player("dog",130,390,300);
+    Player cat = Player("cat",500,380,300);
 
     ball_position(50, 45, 10, 30, 30);
 
@@ -46,13 +43,10 @@ int main(){
     ALLEGRO_BITMAP *two_player = load_bitmap("img//2 player.png");
     ALLEGRO_BITMAP *cursor_bitmap = load_bitmap("img//cursor.png");
     ALLEGRO_BITMAP *wall = load_bitmap("img//wall.png");
-    ALLEGRO_BITMAP *ball = load_bitmap("img/ball.png");
-
     int cat_width = al_get_bitmap_width(cat_bitmap);
     int dog_width = al_get_bitmap_width(dog_bitmap);
     int cat_height = al_get_bitmap_height(cat_bitmap);
     int dog_height = al_get_bitmap_height(dog_bitmap);
-
     ALLEGRO_MOUSE_CURSOR *cursor = al_create_mouse_cursor(cursor_bitmap, 0, 0);
     eventQueue = al_create_event_queue();
     if (!eventQueue){
@@ -86,22 +80,14 @@ int main(){
         if(end_menu_start==true)
         {
             //game functions here
-
-                dog = check_dog_move(keyboard, dog, screen_width, dog_width, cat);
-
-
-
-                cat = check_cat_move(keyboard, cat, screen_width, cat_width, dog);
-
-
-
+            dog = check_dog_move(keyboard, dog, screen_width, dog_width);
+            cat = check_cat_move(keyboard, cat, screen_width, cat_width);
             //cout << dog.x_position << endl << cat.x_position;
             if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
             {
                dog = check_hp_dog(dog, ev.mouse.x, ev.mouse.y, dog_width, dog_height);
                cat = check_hp_cat(cat, ev.mouse.x, ev.mouse.y, cat_width, cat_height);
             }
-
             al_draw_bitmap(background,0,0,0);
             al_draw_bitmap(dog_bitmap, dog.x_position, dog.y_position, 0);
             al_draw_bitmap(cat_bitmap, cat.x_position, cat.y_position,0);
@@ -129,7 +115,6 @@ int main(){
     al_destroy_bitmap(cat_bitmap);
     al_destroy_bitmap(start_background);
     al_destroy_bitmap(background);
-    al_destroy_bitmap(ball);
     al_destroy_display( display );
     return 0;
 }

@@ -5,7 +5,6 @@
 #include <list>
 #define PI 3.14159265
 using namespace std;
-float force =0 ;
 
 bool run_menu_start(ALLEGRO_MOUSE_STATE mouse, ALLEGRO_DISPLAY* display, ALLEGRO_MOUSE_CURSOR* cursor, bool end_menu_start)
 {
@@ -36,92 +35,70 @@ bool run_menu_start(ALLEGRO_MOUSE_STATE mouse, ALLEGRO_DISPLAY* display, ALLEGRO
     return end_menu_start;
 }
 
+Player check_dog_move(ALLEGRO_KEYBOARD_STATE keyboard, Player dog, int screen_width, int dog_width){
 
-
-
-Player check_dog_move(ALLEGRO_KEYBOARD_STATE keyboard, Player dog, int screen_width, int dog_width, Player cat){
-
-    if(dog.turn == true && cat.turn == false){
-        if(al_key_down(&keyboard, ALLEGRO_KEY_A))
-        {
-          if(dog.x_position>0+5)
-                dog.move_left();
-                dog.move_arrow(0, dog);
-
-
-        }
-
-        if(al_key_down(&keyboard, ALLEGRO_KEY_D))
-        {
-            if( dog.x_position < (screen_width/2-dog_width-20))
-                dog.move_right();
-                dog.move_arrow(0, dog);
-        }
+    if(al_key_down(&keyboard, ALLEGRO_KEY_A))
+    {
+      if(dog.x_position>0+5)
+            dog.move_left();
+            dog.move_arrow(0, dog);
     }
-    else if(dog.turn == false && cat.turn == true){
-         ///arrow move
-        if(al_key_down(&keyboard, ALLEGRO_KEY_W))
-        {
-                dog.move_arrow(1, dog);
-        }
 
-        if(al_key_down(&keyboard, ALLEGRO_KEY_S))
-        {
-                dog.move_arrow(-1, dog);
-        }
-
-        if(al_key_down(&keyboard, ALLEGRO_KEY_SPACE)){
-            force++;
-           cout<<"f= "<<force<<endl;
-            dog.setTurn(true);
-            cat.setTurn(false);
-        }
-
+    if(al_key_down(&keyboard, ALLEGRO_KEY_D))
+    {
+        if( dog.x_position < (screen_width/2-dog_width-20))
+            dog.move_right();
+            dog.move_arrow(0, dog);
     }
+
+     //arrow move
+    if(al_key_down(&keyboard, ALLEGRO_KEY_W))
+    {
+            dog.move_arrow(1, dog);
+    }
+
+    if(al_key_down(&keyboard, ALLEGRO_KEY_S))
+    {
+            dog.move_arrow(-1, dog);
+    }
+
     return dog;
 }
 
-Player check_cat_move(ALLEGRO_KEYBOARD_STATE keyboard, Player cat, int screen_width, int cat_width, Player dog)
+Player check_cat_move(ALLEGRO_KEYBOARD_STATE keyboard, Player cat, int screen_width, int cat_width)
 {
-    if(cat.turn == true && dog.turn == false){
 
-         if(al_key_down(&keyboard, ALLEGRO_KEY_LEFT))
-            {
-                if((cat.x_position > screen_width/2+30))
-                    cat.move_left();
-                    cat.move_arrow(0, cat);
-            }
-
-            if(al_key_down(&keyboard, ALLEGRO_KEY_RIGHT)){
-                if( cat.x_position < (screen_width-cat_width-5) )
-                    cat.move_right();
-                    cat.move_arrow(0, cat);
-            }
+ if(al_key_down(&keyboard, ALLEGRO_KEY_LEFT))
+    {
+        if((cat.x_position > screen_width/2+30))
+            cat.move_left();
+            cat.move_arrow(0, cat);
     }
-    else if(cat.turn == false && dog.turn == true){
-        ///arrow move
-        if(al_key_down(&keyboard, ALLEGRO_KEY_UP)){
-                cat.move_arrow(-1, cat);
-        }
 
-        if(al_key_down(&keyboard, ALLEGRO_KEY_DOWN)){
-                cat.move_arrow(1, cat);
-        }
-
-
-         if(al_key_down(&keyboard, ALLEGRO_KEY_SPACE)){
-            force++;
-           cout<<"f= "<<force<<endl;
-            cat.setTurn(true);
-            dog.setTurn(false);
-        }
-
+    if(al_key_down(&keyboard, ALLEGRO_KEY_RIGHT))
+    {
+        if( cat.x_position < (screen_width-cat_width-5) )
+            cat.move_right();
+            cat.move_arrow(0, cat);
     }
+
+    //arrow move
+    if(al_key_down(&keyboard, ALLEGRO_KEY_UP))
+    {
+            cat.move_arrow(-1, cat);
+    }
+
+    if(al_key_down(&keyboard, ALLEGRO_KEY_DOWN))
+    {
+            cat.move_arrow(1, cat);
+    }
+
+
     return cat;
 }
-
-Player check_hp_dog(Player dog, int x, int y, int dWidth,  int dHeight)
+Player check_hp_dog(Player dog, int x, int y, int dWidth, int dHeight)
 {
+
     if((dog.x_position + dWidth) > x && dog.x_position < x &&  (dog.y_position + dHeight) > y && dog.y_position < y)
     {
         if(dog.hp!=10){
@@ -131,8 +108,8 @@ Player check_hp_dog(Player dog, int x, int y, int dWidth,  int dHeight)
     }
     return dog;
 }
-
-Player check_hp_cat(Player cat, int x, int y, int cWidth, int cHeight){
+Player check_hp_cat(Player cat, int x, int y, int cWidth, int cHeight)
+{
 
     if((cat.x_position + cWidth) > x && cat.x_position < x &&  (cat.y_position + cHeight) > y && cat.y_position < y)
     {
@@ -141,11 +118,8 @@ Player check_hp_cat(Player cat, int x, int y, int cWidth, int cHeight){
         cout<<"dodano"<<endl;
     }
     }
-
-
     return cat;
 }
-
 bool dog_allowed_x_position(Player dog)
 {
 
@@ -177,7 +151,5 @@ list<float> ball_position(float Vo, float angle, float wind, float start_x, floa
 
     return x_y_position;
 }
-
-
 
 #endif // GAME_HPP_INCLUDED
