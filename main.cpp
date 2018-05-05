@@ -11,6 +11,7 @@
 #include "player.hpp"
 #include "Turn.hpp"
 #include "ball.hpp"
+#include "wind.hpp"
 
 #define screen_width 800
 #define screen_height 537
@@ -22,15 +23,18 @@
 
 
 
+
 bool end_game = false;
 const float FPS = 60;
 using namespace std;
 
 int main(){
+    srand(time(NULL));
     bool end_menu_start = false;
     Player dog = Player("dog",130,390,300);
     Player cat = Player("cat",500,380,300);
     Turn game_turn = Turn(); // obiekt tury, zaczyna pies
+    Wind wind = Wind(); // wiatr = 0, losowanie wiatru gdy nowa tura (nacisnij spacje)
 
     al_init();
     al_install_keyboard();
@@ -111,8 +115,9 @@ int main(){
                    dog = check_hp_dog(dog, ev.mouse.x, ev.mouse.y, dog_width, dog_height);
                    cat = check_hp_cat(cat, ev.mouse.x, ev.mouse.y, cat_width, cat_height);
                 }
-                //check turn change
-                game_turn.check_change_turn(keyboard, ev);
+                //check turn change and change wind!! (in Turn.hpp)
+                game_turn.check_change_turn(keyboard, ev, wind);
+
             }
 
 
@@ -130,9 +135,14 @@ int main(){
             al_draw_text(font_small_size_obj, al_map_rgb(255, 0, 0), 50, 40, ALLEGRO_ALIGN_CENTRE, prepate_hp_text(dog.hp).c_str());
             al_draw_text(font_small_size_obj, al_map_rgb(255, 0, 0), 750, 40, ALLEGRO_ALIGN_CENTRE, prepate_hp_text(cat.hp).c_str());
 
+            //draw wind
+            al_draw_text(font_small_size_obj, al_map_rgb(0, 0, 200), screen_width/2, 10, ALLEGRO_ALIGN_CENTRE, "Wiatr");
+            draw_wind_rectangle(wind);
+            al_draw_text(font_small_size_obj, al_map_rgb(0, 0, 200), screen_width/2, 55, ALLEGRO_ALIGN_CENTRE, prepate_wind_text(wind.strength).c_str());
+
             //draw wall and turn text
             al_draw_bitmap(wall_bitmap, screen_width/2, 370, 0);
-            al_draw_text(font_normal_size_obj, al_map_rgb(255, 177, 10), screen_width/2, 40, ALLEGRO_ALIGN_CENTRE, game_turn.whose_turn_text.c_str());
+            al_draw_text(font_normal_size_obj, al_map_rgb(255, 177, 10), screen_width/2, 80, ALLEGRO_ALIGN_CENTRE, game_turn.whose_turn_text.c_str());
 
             //al_draw_bitmap(ball_bitmap, ball.ball_position_x, ball.ball_position_y, 0);
 

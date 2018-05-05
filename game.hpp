@@ -4,8 +4,11 @@
 #include "math.h"
 #include "Turn.hpp"
 #include "Ball.hpp"
+#include "wind.hpp"
 #include <sstream>
+
 #define PI 3.14159265
+#define wind_rectangle_width 80
 using namespace std;
 
 bool run_menu_start(ALLEGRO_MOUSE_STATE mouse, ALLEGRO_DISPLAY* display, ALLEGRO_MOUSE_CURSOR* cursor, bool end_menu_start)
@@ -135,6 +138,21 @@ string prepate_hp_text(int hp)
     ostringstream output;
     output << "HP " << hp ;
     return output.str();
+}
+
+string prepate_wind_text(float wind)
+{
+    ostringstream output;
+    output << "Siła: " << wind ;
+    return output.str();
+}
+
+void draw_wind_rectangle(Wind wind){
+
+    if(wind.direction == LEFT)
+        al_draw_filled_rectangle(800/2, 40, (800/2)+wind.strength*wind_rectangle_width, 50, al_map_rgb(0,0,200));
+    else
+        al_draw_filled_rectangle(800/2, 40, (800/2)+wind.strength*wind_rectangle_width, 50, al_map_rgb(0,0,200));
 }
 
 void check_end_game(Player dog, Player cat, ALLEGRO_FONT font_title_size_obj[])

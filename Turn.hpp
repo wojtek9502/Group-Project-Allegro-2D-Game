@@ -1,5 +1,6 @@
 #ifndef TURN_HPP_INCLUDED
 #define TURN_HPP_INCLUDED
+#include "wind.hpp"
 
 using namespace std;
 
@@ -22,7 +23,8 @@ public:
 
     }
 
-    void check_change_turn(ALLEGRO_KEYBOARD_STATE keyboard, ALLEGRO_EVENT ev) // zmiana turny jesli byla tura psa to zmien na ture kota itd
+    //zmien ture i wylosuj wiatr
+    void check_change_turn(ALLEGRO_KEYBOARD_STATE keyboard, ALLEGRO_EVENT ev, Wind &wind) // zmiana turny jesli byla tura psa to zmien na ture kota itd
     {
         if(ev.keyboard.keycode == ALLEGRO_KEY_SPACE) // jesli nacisnie spacje
         {
@@ -41,6 +43,10 @@ public:
                             break;
                         }
                 }
+
+                //wylosuj nowa wartosc wiatru (funkcja jest w pliku wind.hpp)
+                wind.rand_wind();
+
         }
     }
 
