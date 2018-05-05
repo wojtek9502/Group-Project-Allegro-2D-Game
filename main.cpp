@@ -7,6 +7,7 @@
 #include "system_functions.hpp"
 #include "game.hpp"
 #include "player.hpp"
+#include "Turn.hpp"
 
 #define screen_width 800
 #define screen_height 537
@@ -17,6 +18,7 @@ int main(){
     bool end_menu_start = false;
     Player dog = Player("dog",130,390,300);
     Player cat = Player("cat",500,380,300);
+    Turn game_turn = Turn(); // obiekt tury, zaczyna pies
 
     ball_position(50, 45, 10, 30, 30);
 
@@ -60,6 +62,7 @@ int main(){
     al_start_timer(timer);
     while(!al_key_down(&keyboard, ALLEGRO_KEY_ESCAPE))
     {
+
         al_get_keyboard_state(&keyboard);
         al_get_mouse_state(&mouse);
         al_set_system_mouse_cursor(display, ALLEGRO_SYSTEM_MOUSE_CURSOR_DEFAULT);
@@ -99,6 +102,8 @@ int main(){
 
 
             al_draw_bitmap(wall, screen_width/2, 370, 0);
+
+            game_turn.check_change_turn(keyboard);
 
         }
 

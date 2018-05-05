@@ -2,6 +2,7 @@
 #define GAME_HPP_INCLUDED
 #include "player.hpp"
 #include "math.h"
+#include "Turn.hpp"
 #include <list>
 #define PI 3.14159265
 using namespace std;
@@ -120,10 +121,6 @@ Player check_hp_cat(Player cat, int x, int y, int cWidth, int cHeight)
     }
     return cat;
 }
-bool dog_allowed_x_position(Player dog)
-{
-
-}
 
 list<float> ball_position(float Vo, float angle, float wind, float start_x, float start_y){
     float x;
@@ -151,5 +148,7 @@ list<float> ball_position(float Vo, float angle, float wind, float start_x, floa
 
     return x_y_position;
 }
+
+
 
 #endif // GAME_HPP_INCLUDED
