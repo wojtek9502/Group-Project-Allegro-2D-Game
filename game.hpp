@@ -9,7 +9,12 @@
 
 #define PI 3.14159265
 #define wind_rectangle_width 80
+#define max_throw_strenght 50
+
 using namespace std;
+bool dog_strenght_rise = true;
+bool cat_strenght_rise = true;
+
 
 bool run_menu_start(ALLEGRO_MOUSE_STATE mouse, ALLEGRO_DISPLAY* display, ALLEGRO_MOUSE_CURSOR* cursor, bool end_menu_start)
 {
@@ -39,7 +44,7 @@ bool run_menu_start(ALLEGRO_MOUSE_STATE mouse, ALLEGRO_DISPLAY* display, ALLEGRO
     return end_menu_start;
 }
 
-Player check_dog_move(ALLEGRO_KEYBOARD_STATE keyboard, Player dog, int screen_width, int dog_width, Turn turn){
+Player check_dog_move(ALLEGRO_KEYBOARD_STATE keyboard, Player &dog, int screen_width, int dog_width, Turn turn){
 
     if(turn.whose_turn == DOG_TURN)
     {
@@ -68,11 +73,30 @@ Player check_dog_move(ALLEGRO_KEYBOARD_STATE keyboard, Player dog, int screen_wi
                 dog.move_arrow(-1, dog);
         }
 
+        // siła rzutu pies
+        if(al_key_down(&keyboard, ALLEGRO_KEY_R))
+        {
+
+                if(dog_strenght_rise == true)
+                {
+                    dog.Vo = dog.Vo + 1.0;
+                    if(dog.Vo >= max_throw_strenght) // max_throw_strange is #define
+                        dog_strenght_rise = false;
+                }
+                else
+                {
+                    dog.Vo = dog.Vo - 1.0;
+                    if(dog.Vo == 0)
+                        dog_strenght_rise = true;
+                }
+                cout << "Pies sila rzutu (Vo):" << dog.Vo << endl;
+        }
+
     }
      return dog;
 }
 
-Player check_cat_move(ALLEGRO_KEYBOARD_STATE keyboard, Player cat, int screen_width, int cat_width, Turn turn)
+Player check_cat_move(ALLEGRO_KEYBOARD_STATE keyboard, Player &cat, int screen_width, int cat_width, Turn turn)
 {
     if(turn.whose_turn == CAT_TURN)
     {
@@ -100,6 +124,26 @@ Player check_cat_move(ALLEGRO_KEYBOARD_STATE keyboard, Player cat, int screen_wi
         {
                 cat.move_arrow(1, cat);
         }
+
+        // siła rzutu kot
+        if(al_key_down(&keyboard, ALLEGRO_KEY_RSHIFT))
+        {
+
+                if(cat_strenght_rise == true)
+                {
+                    cat.Vo = cat.Vo + 1.0;
+                    if(cat.Vo >= max_throw_strenght) // max_throw_strange is #define
+                        cat_strenght_rise = false;
+                }
+                else
+                {
+                    cat.Vo = cat.Vo - 1.0;
+                    if(cat.Vo == 0)
+                        cat_strenght_rise = true;
+                }
+                cout << "Kot sila rzutu (Vo):" << cat.Vo << endl;
+        }
+
     }
     return cat;
 }
@@ -144,6 +188,13 @@ string prepate_wind_text(float wind)
 {
     ostringstream output;
     output << "Siła: " << wind ;
+    return output.str();
+}
+
+string prepate_throw_strengtht_text(float throw_strength)
+{
+    ostringstream output;
+    output << "Siła rzutu: " << throw_strength ;
     return output.str();
 }
 

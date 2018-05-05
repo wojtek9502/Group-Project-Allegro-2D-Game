@@ -19,6 +19,7 @@
 //wielkosci fontow
 #define font_normal_size 40
 #define font_small_size 20
+#define font_very_small_size 18
 #define font_title_size 65
 
 
@@ -35,6 +36,7 @@ int main(){
     Player cat = Player("cat",500,380,300);
     Turn game_turn = Turn(); // obiekt tury, zaczyna pies
     Wind wind = Wind(); // wiatr = 0, losowanie wiatru gdy nowa tura (nacisnij spacje)
+    wind.rand_wind();
 
     al_init();
     al_install_keyboard();
@@ -48,6 +50,7 @@ int main(){
     ALLEGRO_FONT *font_title_size_obj = al_load_font("fonts//font1.ttf", font_title_size, 0);
     ALLEGRO_FONT *font_normal_size_obj = al_load_font("fonts//font1.ttf", font_normal_size, 0);
     ALLEGRO_FONT *font_small_size_obj = al_load_font("fonts//font1.ttf", font_small_size, 0);
+    ALLEGRO_FONT *font_very_small_size_obj = al_load_font("fonts//font1.ttf", font_very_small_size, 0);
 
     ALLEGRO_TIMER *timer = NULL;
     ALLEGRO_KEYBOARD_STATE keyboard;
@@ -124,10 +127,16 @@ int main(){
             // draw elements here
             // draw players elements
             al_draw_bitmap(background,0,0,0);
-            al_draw_bitmap(dog_bitmap, dog.x_position, dog.y_position, 0);
-            al_draw_bitmap(cat_bitmap, cat.x_position, cat.y_position,0);
-            al_draw_line( cat.x_position, cat.y_position,  cat.x_arrow_point, cat.y_arrow_point, al_map_rgb(255,0,0), 3);
-            al_draw_line( dog.x_position+dog_width, dog.y_position,  dog.x_arrow_point+dog_width, dog.y_arrow_point, al_map_rgb(0,0,255), 3);
+            al_draw_bitmap(dog_bitmap, dog.x_position, dog.y_position, 0); //pies postac
+            al_draw_line( dog.x_position+dog_width, dog.y_position,  dog.x_arrow_point+dog_width, dog.y_arrow_point, al_map_rgb(0,0,255), 3); //pies strzalka
+            al_draw_text(font_very_small_size_obj, al_map_rgb(206, 82, 0), 10, screen_height-25, ALLEGRO_ALIGN_LEFT, prepate_throw_strengtht_text(dog.Vo).c_str()); //pies sila rzutu napis
+            al_draw_filled_rectangle(140, screen_height-20, 140+dog.Vo, screen_height-10, al_map_rgb(206, 82, 0)); //sila rzutu pasek kot
+
+            al_draw_bitmap(cat_bitmap, cat.x_position, cat.y_position,0); // kot postac
+            al_draw_line( cat.x_position, cat.y_position,  cat.x_arrow_point, cat.y_arrow_point, al_map_rgb(255,0,0), 3); // strzalka kot
+            al_draw_text(font_very_small_size_obj, al_map_rgb(206, 82, 0), 660, screen_height-25, ALLEGRO_ALIGN_LEFT, prepate_throw_strengtht_text(cat.Vo).c_str()); //pies sila rzutu napis
+            al_draw_filled_rectangle(650-cat.Vo, screen_height-20, 650, screen_height-10, al_map_rgb(206, 82, 0)); //sila rzutu pasek kot
+
 
            //draw hp and hp texts
             al_draw_filled_rectangle(10, 10, 10+dog.hp, 25, al_map_rgb(255, 0, 0));
@@ -150,16 +159,15 @@ int main(){
 
             // end game check
             if(cat.hp <= 0){
-                al_draw_text(font_title_size_obj, al_map_rgb(255, 177, 10), screen_width/2, 100, ALLEGRO_ALIGN_CENTRE, "Wygrał Pies");
+                al_draw_text(font_title_size_obj, al_map_rgb(255, 177, 10), screen_width/2, 200, ALLEGRO_ALIGN_CENTRE, "Wygrał Pies");
                 end_game = true;
             }
             if(dog.hp <= 0){
-                al_draw_text(font_title_size_obj, al_map_rgb(255, 177, 10), screen_width/2, 80, ALLEGRO_ALIGN_CENTRE, "Wygrał Kot");
+                al_draw_text(font_title_size_obj, al_map_rgb(255, 177, 10), screen_width/2, 200, ALLEGRO_ALIGN_CENTRE, "Wygrał Kot");
                 end_game = true;
             }
 
         }
-
         al_flip_display();
 
 
