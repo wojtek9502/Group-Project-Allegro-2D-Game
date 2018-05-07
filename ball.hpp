@@ -14,7 +14,8 @@ public:
     float damage;
     vector<float> ball_position_vector;
     int vector_index;
-
+    float time = 1;
+    float step = 0.1;
     Ball() { }
 
 vector<float> calculate_ball_position(float Vo, float angle, float wind, float start_x, float start_y){
@@ -28,16 +29,18 @@ vector<float> calculate_ball_position(float Vo, float angle, float wind, float s
     float ball_x = start_x;
     float ball_y = start_y;
     vector<float> x_y_position;
+    float position[200][2];
+    int i=0;
 
-    while(ball_y > 0){
+    while(ball_y < 500){
         x = (Vo * cos(angle*PI/180) / constant_wind) * (1 - pow(e, -constant_wind*time));
         y = ((Vo * sin(angle*PI/180) / wind) + (g/wind) ) * (1 - pow(e, -wind*time)) - (g*time/wind);
 
-        ball_x += x*step;
-        ball_y += y*step;
-
+        ball_x -= x*step;
+        ball_y -= y*step;
         x_y_position.push_back(ball_x);
         x_y_position.push_back(ball_y);
+        i++;
         time +=step;
     }
 

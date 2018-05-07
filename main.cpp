@@ -24,11 +24,24 @@
 
 
 
-
+bool throww = false;
 bool end_game = false;
 const float FPS = 60;
 using namespace std;
+int i =0;
+Ball moveBall(Ball ball, float Vo, float angle, float wind)
+{
+    float constant_wind = 10;
+    float g = 9.80665;
+    float e = 2.718281828459;
+    float x = (Vo * cos(angle*PI/180) / constant_wind) * (1 - pow(e, -constant_wind*ball.time));
+    float y = ((Vo * sin(angle*PI/180) / wind) + (g/wind) ) * (1 - pow(e, -wind*ball.time)) - (g*ball.time/wind);
 
+        ball.ball_position_x -= x*ball.step;
+        ball.ball_position_y -= y*ball.step;
+        ball.time +=ball.step;
+    return ball;
+}
 int main(){
     srand(time(NULL));
     bool end_menu_start = false;
@@ -37,13 +50,13 @@ int main(){
     Turn game_turn = Turn(); // obiekt tury, zaczyna pies
     Wind wind = Wind(); // wiatr = 0, losowanie wiatru gdy nowa tura (nacisnij spacje)
     wind.rand_wind();
-
+    Ball ball;
     al_init();
     al_install_keyboard();
     al_install_mouse();
     al_init_image_addon();
     al_init_primitives_addon();
-
+    ball.print_position_vector();
     // fonts init
     al_init_font_addon();
     al_init_ttf_addon();
@@ -51,7 +64,6 @@ int main(){
     ALLEGRO_FONT *font_normal_size_obj = al_load_font("fonts//font1.ttf", font_normal_size, 0);
     ALLEGRO_FONT *font_small_size_obj = al_load_font("fonts//font1.ttf", font_small_size, 0);
     ALLEGRO_FONT *font_very_small_size_obj = al_load_font("fonts//font1.ttf", font_very_small_size, 0);
-
     ALLEGRO_TIMER *timer = NULL;
     ALLEGRO_KEYBOARD_STATE keyboard;
     ALLEGRO_MOUSE_STATE mouse;
@@ -72,6 +84,8 @@ int main(){
     int dog_width = al_get_bitmap_width(dog_bitmap);
     int cat_height = al_get_bitmap_height(cat_bitmap);
     int dog_height = al_get_bitmap_height(dog_bitmap);
+    ball.ball_position_x=dog.x_position+dog_width;
+    ball.ball_position_y=dog.y_position;
     ALLEGRO_MOUSE_CURSOR *cursor = al_create_mouse_cursor(cursor_bitmap, 0, 0);
     eventQueue = al_create_event_queue();
     if (!eventQueue){
@@ -91,6 +105,9 @@ int main(){
         al_set_system_mouse_cursor(display, ALLEGRO_SYSTEM_MOUSE_CURSOR_DEFAULT);
         ALLEGRO_EVENT ev;
         al_wait_for_event(eventQueue, &ev);
+    //    if(ev.type == ALLEGRO_EVENT_TIMER)
+      //  {
+
 
         if(end_menu_start==false)
         {
@@ -118,11 +135,16 @@ int main(){
                    dog = check_hp_dog(dog, ev.mouse.x, ev.mouse.y, dog_width, dog_height);
                    cat = check_hp_cat(cat, ev.mouse.x, ev.mouse.y, cat_width, cat_height);
                 }
+                if(al_key_down(&keyboard, ALLEGRO_KEY_G))
+                {
+                    ball.calculate_ball_position(100,45,20,190,360);
+                   ball = moveBall(ball,180,135,10);
+                    throww=true;
+                }
                 //check turn change and change wind!! (in Turn.hpp)
                 game_turn.check_change_turn(keyboard, ev, wind);
 
             }
-
 
             // draw elements here
             // draw players elements
@@ -152,6 +174,8 @@ int main(){
             //draw wall and turn text
             al_draw_bitmap(wall_bitmap, screen_width/2, 370, 0);
             al_draw_text(font_normal_size_obj, al_map_rgb(255, 177, 10), screen_width/2, 80, ALLEGRO_ALIGN_CENTRE, game_turn.whose_turn_text.c_str());
+            if(throww==true)
+            al_draw_filled_circle(ball.ball_position_x,ball.ball_position_y,15,al_map_rgb(255, 180, 80));
 
             //al_draw_bitmap(ball_bitmap, ball.ball_position_x, ball.ball_position_y, 0);
 
@@ -168,12 +192,13 @@ int main(){
             }
 
         }
+    //    }
         al_flip_display();
 
 
 
     }//END GAME LOOP
-
+    ball.print_position_vector();
     al_destroy_bitmap(wall_bitmap);
     al_destroy_bitmap(ball_bitmap);
     al_destroy_bitmap(cursor_bitmap);

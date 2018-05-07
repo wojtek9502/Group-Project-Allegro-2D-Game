@@ -6,7 +6,8 @@
 #include "Ball.hpp"
 #include "wind.hpp"
 #include <sstream>
-
+#include <time.h>
+#include <sys/time.h>
 #define PI 3.14159265
 #define wind_rectangle_width 80
 #define max_throw_strenght 50
@@ -14,7 +15,6 @@
 using namespace std;
 bool dog_strenght_rise = true;
 bool cat_strenght_rise = true;
-
 
 bool run_menu_start(ALLEGRO_MOUSE_STATE mouse, ALLEGRO_DISPLAY* display, ALLEGRO_MOUSE_CURSOR* cursor, bool end_menu_start)
 {
