@@ -14,6 +14,7 @@ public:
     float damage;
     vector<float> ball_position_vector;
     int vector_index;
+    bool life;
     float time = 1;
     float step = 0.1;
     Ball() { }

@@ -28,9 +28,16 @@ bool throww = false;
 bool end_game = false;
 const float FPS = 60;
 using namespace std;
-int i =0;
-Ball moveBall(Ball ball, float Vo, float angle, float wind)
+/*void CollisionDetection(Player dog, Player cat, Ball ball, Turn turn)
 {
+    if(turn.whose_turn==DOG_TURN)
+    {
+        if(ball.ball_position_x>dog.x_position&&)
+    }
+}*/
+Ball moveBallDog(Ball ball, float Vo, float angle, float wind, Player dog, int width)
+{
+    if(ball.life==true){
     float constant_wind = 10;
     float g = 9.80665;
     float e = 2.718281828459;
@@ -40,6 +47,36 @@ Ball moveBall(Ball ball, float Vo, float angle, float wind)
         ball.ball_position_x -= x*ball.step;
         ball.ball_position_y -= y*ball.step;
         ball.time +=ball.step;
+       // cout << angle <<endl;
+    }
+        if(ball.ball_position_y>500){
+            ball.life=false;
+            ball.ball_position_x= dog.x_position+width;
+            ball.ball_position_y= dog.y_position;
+            ball.time=1;
+            ball.step=0.1;}
+    return ball;
+}
+Ball moveBallCat(Ball ball, float Vo, float angle, float wind, Player cat, int width)
+{
+    if(ball.life==true){
+    float constant_wind = 10;
+    float g = 9.80665;
+    float e = 2.718281828459;
+    float x = (Vo * cos(angle*PI/180) / constant_wind) * (1 - pow(e, -constant_wind*ball.time));
+    float y = ((Vo * sin(angle*PI/180) / wind) + (g/wind) ) * (1 - pow(e, -wind*ball.time)) - (g*ball.time/wind);
+
+        ball.ball_position_x -= x*ball.step;
+        ball.ball_position_y -= y*ball.step;
+        ball.time +=ball.step;
+       // cout << angle <<endl;
+    }
+        if(ball.ball_position_y>500){
+            ball.life=false;
+            ball.ball_position_x= cat.x_position+width;
+            ball.ball_position_y= cat.y_position;
+            ball.time=1;
+            ball.step=0.1;}
     return ball;
 }
 int main(){
@@ -80,12 +117,11 @@ int main(){
     ALLEGRO_BITMAP *cursor_bitmap = load_bitmap("img//cursor.png");
     ALLEGRO_BITMAP *wall_bitmap = load_bitmap("img//wall.png");
     ALLEGRO_BITMAP *ball_bitmap = load_bitmap("img//ball.png");
+    ALLEGRO_BITMAP *balll = load_bitmap("img//ball.png");
     int cat_width = al_get_bitmap_width(cat_bitmap);
     int dog_width = al_get_bitmap_width(dog_bitmap);
     int cat_height = al_get_bitmap_height(cat_bitmap);
     int dog_height = al_get_bitmap_height(dog_bitmap);
-    ball.ball_position_x=dog.x_position+dog_width;
-    ball.ball_position_y=dog.y_position;
     ALLEGRO_MOUSE_CURSOR *cursor = al_create_mouse_cursor(cursor_bitmap, 0, 0);
     eventQueue = al_create_event_queue();
     if (!eventQueue){
@@ -105,8 +141,8 @@ int main(){
         al_set_system_mouse_cursor(display, ALLEGRO_SYSTEM_MOUSE_CURSOR_DEFAULT);
         ALLEGRO_EVENT ev;
         al_wait_for_event(eventQueue, &ev);
-    //    if(ev.type == ALLEGRO_EVENT_TIMER)
-      //  {
+     // if(ev.type == ALLEGRO_EVENT_TIMER)
+     //   {
 
 
         if(end_menu_start==false)
@@ -123,9 +159,12 @@ int main(){
 
         if(end_menu_start==true)
         {
+
             //game functions here
             if(end_game == false)
             {
+                if(ev.type == ALLEGRO_EVENT_TIMER)
+                {
                 dog = check_dog_move(keyboard, dog, screen_width, dog_width, game_turn);
                 cat = check_cat_move(keyboard, cat, screen_width, cat_width, game_turn);
 
@@ -135,12 +174,28 @@ int main(){
                    dog = check_hp_dog(dog, ev.mouse.x, ev.mouse.y, dog_width, dog_height);
                    cat = check_hp_cat(cat, ev.mouse.x, ev.mouse.y, cat_width, cat_height);
                 }
-                if(al_key_down(&keyboard, ALLEGRO_KEY_G))
+                if(al_key_down(&keyboard, ALLEGRO_KEY_SPACE))
                 {
-                    ball.calculate_ball_position(100,45,20,190,360);
-                   ball = moveBall(ball,180,135,10);
-                    throww=true;
+                    if(game_turn.whose_turn==DOG_TURN){
+                     ball.ball_position_x=dog.x_position+dog_width;
+                     ball.ball_position_y=dog.y_position;
+                     ball.life=true;
+                     throww=true;
+                    }
+                    if(game_turn.whose_turn==CAT_TURN){
+                     ball.ball_position_x=cat.x_position;
+                     ball.ball_position_y=cat.y_position;
+                     ball.life=true;
+                     throww=true;
+                    }
                 }
+                if(throww==true&&ball.life==true&&game_turn.whose_turn==CAT_TURN)
+                ball = moveBallDog(ball,180,135,10,dog,dog_width);
+                if(throww==true&&ball.life==true&&game_turn.whose_turn==DOG_TURN)
+                ball = moveBallCat(ball,180,45,10,cat,cat_width);
+            //    ball = moveBallCat(ball,180,135,10,dog,cat_width);
+                }
+
                 //check turn change and change wind!! (in Turn.hpp)
                 game_turn.check_change_turn(keyboard, ev, wind);
 
@@ -148,6 +203,7 @@ int main(){
 
             // draw elements here
             // draw players elements
+
             al_draw_bitmap(background,0,0,0);
             al_draw_bitmap(dog_bitmap, dog.x_position, dog.y_position, 0); //pies postac
             al_draw_line( dog.x_position+dog_width, dog.y_position,  dog.x_arrow_point+dog_width, dog.y_arrow_point, al_map_rgb(0,0,255), 3); //pies strzalka
@@ -174,10 +230,11 @@ int main(){
             //draw wall and turn text
             al_draw_bitmap(wall_bitmap, screen_width/2, 370, 0);
             al_draw_text(font_normal_size_obj, al_map_rgb(255, 177, 10), screen_width/2, 80, ALLEGRO_ALIGN_CENTRE, game_turn.whose_turn_text.c_str());
-            if(throww==true)
-            al_draw_filled_circle(ball.ball_position_x,ball.ball_position_y,15,al_map_rgb(255, 180, 80));
-
-            //al_draw_bitmap(ball_bitmap, ball.ball_position_x, ball.ball_position_y, 0);
+            if(throww==true&&ball.life==true){
+           // al_draw_filled_circle(ball.ball_position_x,ball.ball_position_y,15,al_map_rgb(255, 180, 80));
+           al_draw_bitmap(balll, ball.ball_position_x, ball.ball_position_y, 0);
+            }
+          //  al_draw_bitmap(ball_bitmap, ball.ball_position_x, ball.ball_position_y, 0);
 
 
 
@@ -192,7 +249,7 @@ int main(){
             }
 
         }
-    //    }
+       // }
         al_flip_display();
 
 

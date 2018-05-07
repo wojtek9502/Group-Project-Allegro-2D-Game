@@ -1,7 +1,7 @@
 #ifndef PLAYER_HPP_INCLUDED
 #define PLAYER_HPP_INCLUDED
 #include<math.h>
-#define ARROW_LENGHT 80.0
+#define ARROW_LENGHT 40.0
 #define M_PI 3.14
 using namespace std;
 class Player{

@@ -10,12 +10,27 @@
 #include <sys/time.h>
 #define PI 3.14159265
 #define wind_rectangle_width 80
-#define max_throw_strenght 50
+#define max_throw_strenght 200
 
 using namespace std;
 bool dog_strenght_rise = true;
 bool cat_strenght_rise = true;
+Ball moveBallDog(Ball ball, float Vo, float angle, float wind)
+{
+    float constant_wind = 10;
+    float g = 9.80665;
+    float e = 2.718281828459;
+    float x = (Vo * cos(angle*PI/180) / constant_wind) * (1 - pow(e, -constant_wind*ball.time));
+    float y = ((Vo * sin(angle*PI/180) / wind) + (g/wind) ) * (1 - pow(e, -wind*ball.time)) - (g*ball.time/wind);
 
+        ball.ball_position_x -= x*ball.step;
+        ball.ball_position_y -= y*ball.step;
+        ball.time +=ball.step;
+        if(ball.ball_position_y>450){
+            ball.time=1;
+            ball.step=0.1;}
+    return ball;
+}
 bool run_menu_start(ALLEGRO_MOUSE_STATE mouse, ALLEGRO_DISPLAY* display, ALLEGRO_MOUSE_CURSOR* cursor, bool end_menu_start)
 {
      if((mouse.x >=278 && mouse.x <=500) && (mouse.y >= 190 && mouse.y <=215))
