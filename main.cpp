@@ -26,7 +26,7 @@
 
 bool throww = false;
 bool end_game = false;
-const float FPS = 60;
+const float FPS = 180;
 using namespace std;
 /*void CollisionDetection(Player dog, Player cat, Ball ball, Turn turn)
 {
@@ -47,6 +47,7 @@ Ball moveBallDog(Ball ball, float Vo, float angle, float wind, Player dog, int w
         ball.ball_position_x -= x*ball.step;
         ball.ball_position_y -= y*ball.step;
         ball.time +=ball.step;
+
        // cout << angle <<endl;
     }
         if(ball.ball_position_y>500){
@@ -101,11 +102,9 @@ int main(){
     ALLEGRO_FONT *font_normal_size_obj = al_load_font("fonts//font1.ttf", font_normal_size, 0);
     ALLEGRO_FONT *font_small_size_obj = al_load_font("fonts//font1.ttf", font_small_size, 0);
     ALLEGRO_FONT *font_very_small_size_obj = al_load_font("fonts//font1.ttf", font_very_small_size, 0);
-    ALLEGRO_TIMER *timer = NULL;
+    ALLEGRO_TIMER *timer = al_create_timer(1.0 / FPS);
     ALLEGRO_KEYBOARD_STATE keyboard;
     ALLEGRO_MOUSE_STATE mouse;
-    ALLEGRO_EVENT_QUEUE *eventQueue = NULL;
-    timer = al_create_timer(1.0 / FPS);
     ALLEGRO_DISPLAY *display = al_create_display( screen_width, screen_height );
     if(!display)
         cout<<"failed to load display";
@@ -123,7 +122,7 @@ int main(){
     int cat_height = al_get_bitmap_height(cat_bitmap);
     int dog_height = al_get_bitmap_height(dog_bitmap);
     ALLEGRO_MOUSE_CURSOR *cursor = al_create_mouse_cursor(cursor_bitmap, 0, 0);
-    eventQueue = al_create_event_queue();
+    ALLEGRO_EVENT_QUEUE *eventQueue = al_create_event_queue();
     if (!eventQueue){
     cout<<"failed to load";
     }
