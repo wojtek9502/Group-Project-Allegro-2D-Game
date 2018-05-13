@@ -32,6 +32,7 @@ public:
                 {
                     case DOG_TURN:
                         {
+                            wind.rand_wind();
                             whose_turn = CAT_TURN;
                             whose_turn_text = "Tura Kota";
                             break;
@@ -45,7 +46,7 @@ public:
                 }
 
                 //wylosuj nowa wartosc wiatru (funkcja jest w pliku wind.hpp)
-                wind.rand_wind();
+              //  wind.rand_wind();
 
         }
     }

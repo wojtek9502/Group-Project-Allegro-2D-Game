@@ -189,9 +189,9 @@ int main(){
                     }
                 }
                 if(throww==true&&ball.life==true&&game_turn.whose_turn==CAT_TURN)
-                ball = moveBallDog(ball,180,135,10,dog,dog_width);
+                ball = moveBallDog(ball,dog.Vo,180-dog.arrow_angle,wind.strength,dog,dog_width);
                 if(throww==true&&ball.life==true&&game_turn.whose_turn==DOG_TURN)
-                ball = moveBallCat(ball,180,45,10,cat,cat_width);
+                ball = moveBallCat(ball,cat.Vo,180-cat.arrow_angle,wind.strength,cat,cat_width);
             //    ball = moveBallCat(ball,180,135,10,dog,cat_width);
                 }
 
@@ -202,7 +202,8 @@ int main(){
 
             // draw elements here
             // draw players elements
-
+            cout<<dog.arrow_angle<<endl;
+            cout<<cat.arrow_angle<<endl;
             al_draw_bitmap(background,0,0,0);
             al_draw_bitmap(dog_bitmap, dog.x_position, dog.y_position, 0); //pies postac
             al_draw_line( dog.x_position+dog_width, dog.y_position,  dog.x_arrow_point+dog_width, dog.y_arrow_point, al_map_rgb(0,0,255), 3); //pies strzalka

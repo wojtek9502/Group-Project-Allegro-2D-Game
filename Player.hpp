@@ -1,7 +1,7 @@
 #ifndef PLAYER_HPP_INCLUDED
 #define PLAYER_HPP_INCLUDED
 #include<math.h>
-#define ARROW_LENGHT 40.0
+#define ARROW_LENGHT 60.0
 #define M_PI 3.14
 using namespace std;
 class Player{
@@ -16,7 +16,7 @@ public:
     float x_arrow_point;
     float y_arrow_point;
     float arrow_angle;
-    float Vo;
+    float Vo=100;
 
 
 
@@ -33,10 +33,10 @@ public:
         this->y_arrow_point=y_position;
 
         if(this->name=="dog"){
-            this->arrow_angle=95;
+            this->arrow_angle=0;
         }
         else{
-            this->arrow_angle=-165;
+            this->arrow_angle=0;
         }
         this->Vo = 0.0;
 
@@ -61,17 +61,17 @@ public:
             //check angle restrict
              if(player.name.compare("dog")==0)
             {
-                if(arrow_angle<45)
-                    arrow_angle = 45;
-                if(arrow_angle>135)
-                    arrow_angle = 135;
+                if(arrow_angle<0)
+                    arrow_angle = 0;
+                if(arrow_angle>90)
+                    arrow_angle = 90;
             }
             else
             {
-                if(arrow_angle<-225)
-                    arrow_angle = -225;
-                if(arrow_angle>-135)
-                    arrow_angle =-135;
+                if(arrow_angle>180)
+                    arrow_angle = 180;
+                if(arrow_angle<90)
+                    arrow_angle =90;
             }
 
             //convert degrees to radians
@@ -80,7 +80,7 @@ public:
              //init variables for formula
              float x1 = x_position+ARROW_LENGHT;   // x punktu obracanego (wartosc po + reguluje dlugosc strzalki)
              float x2 = x_position;                // x punktu srodka obrotu
-             float y1 = y_position+ARROW_LENGHT;   // y punktu obracanego (wartosc po + reguluje dlugosc strzalki)
+             float y1 = y_position;   // y punktu obracanego (wartosc po + reguluje dlugosc strzalki)
              float y2 = y_position;                // y punktu srodka obrotu
 
 

@@ -9,8 +9,8 @@
 #include <time.h>
 #include <sys/time.h>
 #define PI 3.14159265
-#define wind_rectangle_width 80
-#define max_throw_strenght 200
+#define wind_rectangle_width 10
+#define max_throw_strenght 300
 
 using namespace std;
 bool dog_strenght_rise = true;
@@ -216,7 +216,7 @@ string prepate_throw_strengtht_text(float throw_strength)
 void draw_wind_rectangle(Wind wind){
 
     if(wind.direction == LEFT)
-        al_draw_filled_rectangle(800/2, 40, (800/2)+wind.strength*wind_rectangle_width, 50, al_map_rgb(0,0,200));
+        al_draw_filled_rectangle(800/2, 40, (800/2)+wind.strength*-wind_rectangle_width, 50, al_map_rgb(0,0,200));
     else
         al_draw_filled_rectangle(800/2, 40, (800/2)+wind.strength*wind_rectangle_width, 50, al_map_rgb(0,0,200));
 }
