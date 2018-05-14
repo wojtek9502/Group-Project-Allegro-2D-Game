@@ -30,7 +30,7 @@ vector<float> calculate_ball_position(float Vo, float angle, float wind, float s
     float ball_x = start_x;
     float ball_y = start_y;
     vector<float> x_y_position;
-    float position[200][2];
+//    float position[200][2];
     int i=0;
 
     while(ball_y < 500){

@@ -42,12 +42,12 @@ public:
 
     }
 
-    void move_left(float pixels=1)
+    void move_left(float pixels=0.5)
     {
         x_position = x_position-pixels;
     }
 
-    void move_right(float pixels=1)
+    void move_right(float pixels=0.5)
     {
         x_position = x_position+pixels;
     }
