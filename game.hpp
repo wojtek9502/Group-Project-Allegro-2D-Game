@@ -213,12 +213,43 @@ string prepate_throw_strengtht_text(float throw_strength)
     return output.str();
 }
 
-void draw_wind_rectangle(Wind wind){
+void draw_wind_icons(Wind wind, ALLEGRO_BITMAP *wind_left_bitmap, ALLEGRO_BITMAP *wind_right_bitmap){
 
+    if(wind.strength<10){
+        al_draw_bitmap(wind_left_bitmap, (800/2-20), 35, 0);
+        al_draw_bitmap(wind_left_bitmap, (800/2-50), 35, 0);
+        al_draw_bitmap(wind_left_bitmap, (800/2-80), 35, 0);
+    }
+    if(wind.strength<15){
+        al_draw_bitmap(wind_left_bitmap, (800/2-20), 35, 0);
+        al_draw_bitmap(wind_left_bitmap, (800/2-50), 35, 0);
+    }
+    if(wind.strength<20){
+        al_draw_bitmap(wind_left_bitmap, (800/2-20), 35, 0);
+    }
+
+    if(wind.strength>20)
+    {
+        al_draw_bitmap(wind_right_bitmap, (800/2), 35, 0);
+    }
+    if(wind.strength>25)
+    {
+        al_draw_bitmap(wind_right_bitmap, (800/2), 35, 0);
+        al_draw_bitmap(wind_right_bitmap, (800/2)+30, 35, 0);
+    }
+    if(wind.strength>28)
+    {
+        al_draw_bitmap(wind_right_bitmap, (800/2), 35, 0);
+        al_draw_bitmap(wind_right_bitmap, (800/2)+30, 35, 0);
+        al_draw_bitmap(wind_right_bitmap, (800/2)+60, 35, 0);
+    }
+    /* wiatr jako pasek
     if(wind.direction == LEFT)
         al_draw_filled_rectangle(800/2, 40, (800/2)+wind.strength*-wind_rectangle_width, 50, al_map_rgb(0,0,200));
     else
         al_draw_filled_rectangle(800/2, 40, (800/2)+wind.strength*wind_rectangle_width, 50, al_map_rgb(0,0,200));
+    */
+
 }
 
 void check_end_game(Player dog, Player cat, ALLEGRO_FONT font_title_size_obj[])
@@ -233,6 +264,19 @@ void check_end_game(Player dog, Player cat, ALLEGRO_FONT font_title_size_obj[])
     }
 }
 
+void check_wind_change(Wind &wind, ALLEGRO_KEYBOARD_STATE keyboard){
+     if(al_key_down(&keyboard, ALLEGRO_KEY_Z))
+        {
+            if(wind.strength>=10)
+                wind.strength -=0.1;
+        }
+     if(al_key_down(&keyboard, ALLEGRO_KEY_X))
+        {
+            if(wind.strength<=30)
+                wind.strength +=0.1;
+        }
 
+
+}
 
 #endif // GAME_HPP_INCLUDED

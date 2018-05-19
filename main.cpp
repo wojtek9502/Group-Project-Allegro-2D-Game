@@ -162,7 +162,8 @@ int main(){
     ALLEGRO_BITMAP *cursor_bitmap = load_bitmap("img//cursor.png");
     ALLEGRO_BITMAP *wall_bitmap = load_bitmap("img//wall.png");
     ALLEGRO_BITMAP *ball_bitmap = load_bitmap("img//ball.png");
-    ALLEGRO_BITMAP *balll = load_bitmap("img//ball.png");
+    ALLEGRO_BITMAP *wind_right_bitmap = load_bitmap("img//wind_right.png");
+    ALLEGRO_BITMAP *wind_left_bitmap = load_bitmap("img//wind_left.png");
     int cat_width = al_get_bitmap_width(cat_bitmap);
     int dog_width = al_get_bitmap_width(dog_bitmap);
     int cat_height = al_get_bitmap_height(cat_bitmap);
@@ -212,6 +213,7 @@ int main(){
             {
                 if(ev.type == ALLEGRO_EVENT_TIMER)
                 {
+                check_wind_change(wind, keyboard);
                 dog = check_dog_move(keyboard, dog, screen_width, dog_width, game_turn);
                 cat = check_cat_move(keyboard, cat, screen_width, cat_width, game_turn);
                 CollisionDetection(dog,cat,ball,game_turn,cat_width,cat_height,dog_width,dog_height,wall_height,wall_width);
@@ -256,12 +258,12 @@ int main(){
             al_draw_bitmap(dog_bitmap, dog.x_position, dog.y_position, 0); //pies postac
             al_draw_line( dog.x_position+dog_width, dog.y_position,  dog.x_arrow_point+dog_width, dog.y_arrow_point, al_map_rgb(0,0,255), 3); //pies strzalka
             al_draw_text(font_very_small_size_obj, al_map_rgb(206, 82, 0), 10, screen_height-25, ALLEGRO_ALIGN_LEFT, prepate_throw_strengtht_text(dog.Vo).c_str()); //pies sila rzutu napis
-            al_draw_filled_rectangle(140, screen_height-20, 140+dog.Vo, screen_height-10, al_map_rgb(206, 82, 0)); //sila rzutu pasek kot
+            al_draw_filled_rectangle(140, screen_height-20, (140+dog.Vo/2), screen_height-10, al_map_rgb(206, 82, 0)); //sila rzutu pasek pies
 
             al_draw_bitmap(cat_bitmap, cat.x_position, cat.y_position,0); // kot postac
             al_draw_line( cat.x_position, cat.y_position,  cat.x_arrow_point, cat.y_arrow_point, al_map_rgb(255,0,0), 3); // strzalka kot
             al_draw_text(font_very_small_size_obj, al_map_rgb(206, 82, 0), 660, screen_height-25, ALLEGRO_ALIGN_LEFT, prepate_throw_strengtht_text(cat.Vo).c_str()); //pies sila rzutu napis
-            al_draw_filled_rectangle(650-cat.Vo, screen_height-20, 650, screen_height-10, al_map_rgb(206, 82, 0)); //sila rzutu pasek kot
+            al_draw_filled_rectangle( (650-cat.Vo/2), screen_height-20, 650, screen_height-10, al_map_rgb(206, 82, 0)); //sila rzutu pasek kot
 
 
            //draw hp and hp texts
@@ -272,15 +274,15 @@ int main(){
 
             //draw wind
             al_draw_text(font_small_size_obj, al_map_rgb(0, 0, 200), screen_width/2, 10, ALLEGRO_ALIGN_CENTRE, "Wiatr");
-            draw_wind_rectangle(wind);
-            al_draw_text(font_small_size_obj, al_map_rgb(0, 0, 200), screen_width/2, 55, ALLEGRO_ALIGN_CENTRE, prepate_wind_text(wind.strength).c_str());
+            draw_wind_icons(wind, wind_left_bitmap, wind_right_bitmap);
+            al_draw_text(font_small_size_obj, al_map_rgb(0, 0, 200), screen_width/2, 60, ALLEGRO_ALIGN_CENTRE, prepate_wind_text(wind.strength).c_str());
 
             //draw wall and turn text
             al_draw_bitmap(wall_bitmap, screen_width/2, 370, 0);
             al_draw_text(font_normal_size_obj, al_map_rgb(255, 177, 10), screen_width/2, 80, ALLEGRO_ALIGN_CENTRE, game_turn.whose_turn_text.c_str());
             if(throww==true&&ball.life==true){
            // al_draw_filled_circle(ball.ball_position_x,ball.ball_position_y,15,al_map_rgb(255, 180, 80));
-           al_draw_bitmap(balll, ball.ball_position_x, ball.ball_position_y, 0);
+           al_draw_bitmap(ball_bitmap, ball.ball_position_x, ball.ball_position_y, 0);
             }
            //  cat = CollisionDetection(dog,cat,ball,game_turn,cat_width,cat_height,dog_width,dog_height);
           //  al_draw_bitmap(ball_bitmap, ball.ball_position_x, ball.ball_position_y, 0);
@@ -307,6 +309,8 @@ int main(){
     ball.print_position_vector();
     al_destroy_bitmap(wall_bitmap);
     al_destroy_bitmap(ball_bitmap);
+    al_destroy_bitmap(wind_right_bitmap);
+    al_destroy_bitmap(wind_left_bitmap);
     al_destroy_bitmap(cursor_bitmap);
     al_destroy_bitmap(dog_bitmap);
     al_destroy_bitmap(cat_bitmap);
