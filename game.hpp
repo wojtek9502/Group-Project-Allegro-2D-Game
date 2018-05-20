@@ -15,22 +15,8 @@
 using namespace std;
 bool dog_strenght_rise = true;
 bool cat_strenght_rise = true;
-Ball moveBallDog(Ball ball, float Vo, float angle, float wind)
-{
-    float constant_wind = 10;
-    float g = 9.80665;
-    float e = 2.718281828459;
-    float x = (Vo * cos(angle*PI/180) / constant_wind) * (1 - pow(e, -constant_wind*ball.time));
-    float y = ((Vo * sin(angle*PI/180) / wind) + (g/wind) ) * (1 - pow(e, -wind*ball.time)) - (g*ball.time/wind);
+bool throww = false;
 
-        ball.ball_position_x -= x*ball.step;
-        ball.ball_position_y -= y*ball.step;
-        ball.time +=ball.step;
-        if(ball.ball_position_y>450){
-            ball.time=1;
-            ball.step=0.1;}
-    return ball;
-}
 bool run_menu_start(ALLEGRO_MOUSE_STATE mouse, ALLEGRO_DISPLAY* display, ALLEGRO_MOUSE_CURSOR* cursor, bool end_menu_start)
 {
      if((mouse.x >=278 && mouse.x <=500) && (mouse.y >= 190 && mouse.y <=215))
@@ -40,11 +26,12 @@ bool run_menu_start(ALLEGRO_MOUSE_STATE mouse, ALLEGRO_DISPLAY* display, ALLEGRO
             al_set_mouse_cursor(display, cursor);
             al_rest(0.1);
             if(mouse.buttons & 1){
-                cout<<"clicked one player: x:"<<mouse.x<<"y: "<<mouse.y<<endl;
+                //cout<<"clicked one player: x:"<<mouse.x<<"y: "<<mouse.y<<endl;
                 end_menu_start = true;
             }
         }
 
+        /*
         if((mouse.x >=275 && mouse.x <=510) && (mouse.y >=240 && mouse.y <=281))
         {
             printf("two player: (%d, %d)\n", mouse.x, mouse.y);
@@ -55,6 +42,7 @@ bool run_menu_start(ALLEGRO_MOUSE_STATE mouse, ALLEGRO_DISPLAY* display, ALLEGRO
                 end_menu_start = true;
             }
         }
+        */
 
     return end_menu_start;
 }
@@ -89,7 +77,7 @@ Player check_dog_move(ALLEGRO_KEYBOARD_STATE keyboard, Player &dog, int screen_w
         }
 
         // siła rzutu pies
-        if(al_key_down(&keyboard, ALLEGRO_KEY_R))
+        if(al_key_down(&keyboard, ALLEGRO_KEY_LSHIFT))
         {
 
                 if(dog_strenght_rise == true)
@@ -104,7 +92,7 @@ Player check_dog_move(ALLEGRO_KEYBOARD_STATE keyboard, Player &dog, int screen_w
                     if(dog.Vo == 0)
                         dog_strenght_rise = true;
                 }
-                cout << "Pies sila rzutu (Vo):" << dog.Vo << endl;
+                //cout << "Pies sila rzutu (Vo):" << dog.Vo << endl;
         }
 
     }
@@ -156,7 +144,7 @@ Player check_cat_move(ALLEGRO_KEYBOARD_STATE keyboard, Player &cat, int screen_w
                     if(cat.Vo == 0)
                         cat_strenght_rise = true;
                 }
-                cout << "Kot sila rzutu (Vo):" << cat.Vo << endl;
+                //cout << "Kot sila rzutu (Vo):" << cat.Vo << endl;
         }
 
     }
@@ -275,7 +263,96 @@ void check_wind_change(Wind &wind, ALLEGRO_KEYBOARD_STATE keyboard){
             if(wind.strength<=30)
                 wind.strength +=0.1;
         }
+}
 
+Ball moveBallDog(Ball ball, float Vo, float angle, float wind, Player dog, int width)
+{
+    if(ball.life==true){
+    float constant_wind = 10;
+    float g = 9.80665;
+    float e = 2.718281828459;
+    float x = (Vo * cos(angle*PI/180) / constant_wind) * (1 - pow(e, -constant_wind*ball.time));
+    float y = ((Vo * sin(angle*PI/180) / wind) + (g/wind) ) * (1 - pow(e, -wind*ball.time)) - (g*ball.time/wind);
+
+        ball.ball_position_x -= x*ball.step;
+        ball.ball_position_y -= y*ball.step;
+        ball.time +=ball.step;
+
+       // cout << angle <<endl;
+    }
+        if(ball.ball_position_y>500){
+            ball.life=false;
+            ball.ball_position_x= dog.x_position+width;
+            ball.ball_position_y= dog.y_position;
+            ball.time=1;
+            ball.step=0.1;}
+    return ball;
+}
+Ball moveBallCat(Ball ball, float Vo, float angle, float wind, Player cat, int width)
+{
+    if(ball.life==true){
+    float constant_wind = 10;
+    float g = 9.80665;
+    float e = 2.718281828459;
+    float x = (Vo * cos(angle*PI/180) / constant_wind) * (1 - pow(e, -constant_wind*ball.time));
+    float y = ((Vo * sin(angle*PI/180) / wind) + (g/wind) ) * (1 - pow(e, -wind*ball.time)) - (g*ball.time/wind);
+
+        ball.ball_position_x -= x*ball.step;
+        ball.ball_position_y -= y*ball.step;
+        ball.time +=ball.step;
+       // cout << angle <<endl;
+    }
+        if(ball.ball_position_y>475){
+            ball.life=false;
+            throww=false;
+            ball.ball_position_x= cat.x_position+width;
+            ball.ball_position_y= cat.y_position;
+            ball.time=1;
+            ball.step=0.1;}
+    return ball;
+}
+void CollisionDetection(Player &dog, Player &cat, Ball &ball, Turn turn, int cat_w, int cat_h, int dog_w, int dog_h, int wall_h, int wall_w)
+{
+      if((turn.whose_turn==DOG_TURN)&&(throww==true))
+    {
+        if((ball.ball_position_x>=dog.x_position)&&(ball.ball_position_x<=dog.x_position+dog_w)&&(ball.ball_position_y>=dog.y_position)&&(ball.ball_position_y<=dog.y_position+dog_h)&&ball.life==true){
+            ball.life=false;
+            throww=false;
+            dog.hp=dog.hp - 30;;
+            cout<<"Wykryto"<<endl;
+            cout<<dog.hp<<endl;
+            ball.ball_position_x= dog.x_position+dog_w;
+            ball.ball_position_y= dog.y_position;
+            ball.time=1;
+            ball.step=0.1;
+        }
+    }
+    if((turn.whose_turn==CAT_TURN)&&(throww==true))
+    {
+        if((ball.ball_position_x>=cat.x_position)&&(ball.ball_position_x<=cat.x_position+cat_w)&&(ball.ball_position_y>=cat.y_position)&&(ball.ball_position_y<=cat.x_position+cat_h)&&ball.life==true){
+            ball.life=false;
+            throww=false;
+            cat.hp=cat.hp - 30;;
+           // cout<<"Wykryto"<<endl;
+           // cout<<cat.hp<<endl;
+            ball.ball_position_x= cat.x_position+cat_w;
+            ball.ball_position_y= cat.y_position;
+            ball.time=1;
+            ball.step=0.1;
+        }
+    }
+        if(throww==true)
+    {
+        if((ball.ball_position_x>=400)&&(ball.ball_position_x<=400+wall_w)&&(ball.ball_position_y>=360)&&(ball.ball_position_y<=360+wall_h)&&ball.life==true){
+            ball.life=false;
+            throww=false;
+           // cout<<"Wykryto"<<endl;
+           // cout<<cat.hp<<endl;
+            ball.time=1;
+            ball.step=0.1;
+        }
+
+    }
 
 }
 

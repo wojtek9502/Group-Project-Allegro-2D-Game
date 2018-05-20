@@ -38,7 +38,7 @@ public:
         else{
             this->arrow_angle=0;
         }
-        this->Vo = 0.0;
+        this->Vo = 200.0;
 
     }
 

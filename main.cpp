@@ -24,123 +24,30 @@
 
 
 
-bool throww = false;
+
 bool end_game = false;
 const float FPS = 180;
 using namespace std;
 Player dog = Player("dog",130,390,300);
-Player cat = Player("cat",500,380,300);/*void CollisionDetection(Player dog, Player cat, Ball ball, Turn turn)
-{
-    if(turn.whose_turn==DOG_TURN)
-    {
-        if(ball.ball_position_x>dog.x_position&&)
-    }
-}*/
-Ball moveBallDog(Ball ball, float Vo, float angle, float wind, Player dog, int width)
-{
-    if(ball.life==true){
-    float constant_wind = 10;
-    float g = 9.80665;
-    float e = 2.718281828459;
-    float x = (Vo * cos(angle*PI/180) / constant_wind) * (1 - pow(e, -constant_wind*ball.time));
-    float y = ((Vo * sin(angle*PI/180) / wind) + (g/wind) ) * (1 - pow(e, -wind*ball.time)) - (g*ball.time/wind);
+Player cat = Player("cat",500,380,300);
 
-        ball.ball_position_x -= x*ball.step;
-        ball.ball_position_y -= y*ball.step;
-        ball.time +=ball.step;
 
-       // cout << angle <<endl;
-    }
-        if(ball.ball_position_y>500){
-            ball.life=false;
-            ball.ball_position_x= dog.x_position+width;
-            ball.ball_position_y= dog.y_position;
-            ball.time=1;
-            ball.step=0.1;}
-    return ball;
-}
-Ball moveBallCat(Ball ball, float Vo, float angle, float wind, Player cat, int width)
-{
-    if(ball.life==true){
-    float constant_wind = 10;
-    float g = 9.80665;
-    float e = 2.718281828459;
-    float x = (Vo * cos(angle*PI/180) / constant_wind) * (1 - pow(e, -constant_wind*ball.time));
-    float y = ((Vo * sin(angle*PI/180) / wind) + (g/wind) ) * (1 - pow(e, -wind*ball.time)) - (g*ball.time/wind);
-
-        ball.ball_position_x -= x*ball.step;
-        ball.ball_position_y -= y*ball.step;
-        ball.time +=ball.step;
-       // cout << angle <<endl;
-    }
-        if(ball.ball_position_y>475){
-            ball.life=false;
-            throww=false;
-            ball.ball_position_x= cat.x_position+width;
-            ball.ball_position_y= cat.y_position;
-            ball.time=1;
-            ball.step=0.1;}
-    return ball;
-}
-void CollisionDetection(Player &dog, Player &cat, Ball &ball, Turn turn, int cat_w, int cat_h, int dog_w, int dog_h, int wall_h, int wall_w)
-{
-      if((turn.whose_turn==DOG_TURN)&&(throww==true))
-    {
-        if((ball.ball_position_x>=dog.x_position)&&(ball.ball_position_x<=dog.x_position+dog_w)&&(ball.ball_position_y>=dog.y_position)&&(ball.ball_position_y<=dog.y_position+dog_h)&&ball.life==true){
-            ball.life=false;
-            throww=false;
-            dog.hp=dog.hp - 30;;
-            cout<<"Wykryto"<<endl;
-            cout<<dog.hp<<endl;
-            ball.ball_position_x= dog.x_position+dog_w;
-            ball.ball_position_y= dog.y_position;
-            ball.time=1;
-            ball.step=0.1;
-        }
-    }
-    if((turn.whose_turn==CAT_TURN)&&(throww==true))
-    {
-        if((ball.ball_position_x>=cat.x_position)&&(ball.ball_position_x<=cat.x_position+cat_w)&&(ball.ball_position_y>=cat.y_position)&&(ball.ball_position_y<=cat.x_position+cat_h)&&ball.life==true){
-            ball.life=false;
-            throww=false;
-            cat.hp=cat.hp - 30;;
-           // cout<<"Wykryto"<<endl;
-           // cout<<cat.hp<<endl;
-            ball.ball_position_x= cat.x_position+cat_w;
-            ball.ball_position_y= cat.y_position;
-            ball.time=1;
-            ball.step=0.1;
-        }
-    }
-        if(throww==true)
-    {
-        if((ball.ball_position_x>=400)&&(ball.ball_position_x<=400+wall_w)&&(ball.ball_position_y>=360)&&(ball.ball_position_y<=360+wall_h)&&ball.life==true){
-            ball.life=false;
-            throww=false;
-           // cout<<"Wykryto"<<endl;
-           // cout<<cat.hp<<endl;
-            ball.time=1;
-            ball.step=0.1;
-        }
-
-    }
-
-}
 int main(){
     srand(time(NULL));
     bool end_menu_start = false;
-   // Player dog = Player("dog",130,390,300);
-   // Player cat = Player("cat",500,380,300);
+
     Turn game_turn = Turn(); // obiekt tury, zaczyna pies
     Wind wind = Wind(); // wiatr = 0, losowanie wiatru gdy nowa tura (nacisnij spacje)
     wind.rand_wind();
     Ball ball;
+
     al_init();
     al_install_keyboard();
     al_install_mouse();
     al_init_image_addon();
     al_init_primitives_addon();
     ball.print_position_vector();
+
     // fonts init
     al_init_font_addon();
     al_init_ttf_addon();
@@ -171,6 +78,7 @@ int main(){
     int wall_width = al_get_bitmap_width(wall_bitmap);
     int wall_height = al_get_bitmap_height(wall_bitmap);
     ALLEGRO_MOUSE_CURSOR *cursor = al_create_mouse_cursor(cursor_bitmap, 0, 0);
+
     ALLEGRO_EVENT_QUEUE *eventQueue = al_create_event_queue();
     if (!eventQueue){
     cout<<"failed to load";
@@ -181,6 +89,8 @@ int main(){
     al_register_event_source(eventQueue, al_get_mouse_event_source());
 
     al_start_timer(timer);
+
+    //GAME LOOP
     while(!al_key_down(&keyboard, ALLEGRO_KEY_ESCAPE))
     {
 
@@ -200,8 +110,8 @@ int main(){
             al_draw_bitmap(dog_bitmap, dog.x_position, dog.y_position, 0);
             al_draw_bitmap(cat_bitmap, cat.x_position, cat.y_position,0);
             al_draw_text(font_title_size_obj, al_map_rgb(255, 177, 10), screen_width/2, 80, ALLEGRO_ALIGN_CENTRE, "Pies i Kot");
-            al_draw_text(font_normal_size_obj, al_map_rgb(255, 177, 10), screen_width/2, 180, ALLEGRO_ALIGN_CENTRE, "One Player");
-            al_draw_text(font_normal_size_obj, al_map_rgb(255, 177, 10), screen_width/2, 240, ALLEGRO_ALIGN_CENTRE, "Two Players");
+            al_draw_text(font_normal_size_obj, al_map_rgb(255, 177, 10), screen_width/2, 180, ALLEGRO_ALIGN_CENTRE, "PLAY");
+            //al_draw_text(font_normal_size_obj, al_map_rgb(255, 177, 10), screen_width/2, 240, ALLEGRO_ALIGN_CENTRE, "Two Players");
 
         }
 
@@ -258,7 +168,7 @@ int main(){
             al_draw_bitmap(dog_bitmap, dog.x_position, dog.y_position, 0); //pies postac
             al_draw_line( dog.x_position+dog_width, dog.y_position,  dog.x_arrow_point+dog_width, dog.y_arrow_point, al_map_rgb(0,0,255), 3); //pies strzalka
             al_draw_text(font_very_small_size_obj, al_map_rgb(206, 82, 0), 10, screen_height-25, ALLEGRO_ALIGN_LEFT, prepate_throw_strengtht_text(dog.Vo).c_str()); //pies sila rzutu napis
-            al_draw_filled_rectangle(140, screen_height-20, (140+dog.Vo/2), screen_height-10, al_map_rgb(206, 82, 0)); //sila rzutu pasek pies
+            al_draw_filled_rectangle(150, screen_height-20, (150+dog.Vo/2), screen_height-10, al_map_rgb(206, 82, 0)); //sila rzutu pasek pies
 
             al_draw_bitmap(cat_bitmap, cat.x_position, cat.y_position,0); // kot postac
             al_draw_line( cat.x_position, cat.y_position,  cat.x_arrow_point, cat.y_arrow_point, al_map_rgb(255,0,0), 3); // strzalka kot
@@ -275,7 +185,7 @@ int main(){
             //draw wind
             al_draw_text(font_small_size_obj, al_map_rgb(0, 0, 200), screen_width/2, 10, ALLEGRO_ALIGN_CENTRE, "Wiatr");
             draw_wind_icons(wind, wind_left_bitmap, wind_right_bitmap);
-            al_draw_text(font_small_size_obj, al_map_rgb(0, 0, 200), screen_width/2, 60, ALLEGRO_ALIGN_CENTRE, prepate_wind_text(wind.strength).c_str());
+            //al_draw_text(font_small_size_obj, al_map_rgb(0, 0, 200), screen_width/2, 60, ALLEGRO_ALIGN_CENTRE, prepate_wind_text(wind.strength).c_str());
 
             //draw wall and turn text
             al_draw_bitmap(wall_bitmap, screen_width/2, 370, 0);
