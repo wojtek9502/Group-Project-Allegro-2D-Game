@@ -32,13 +32,14 @@ public:
                 {
                     case DOG_TURN:
                         {
-                            wind.rand_wind();
+
                             whose_turn = CAT_TURN;
                             whose_turn_text = "Tura Kota";
                             break;
                         }
                     case CAT_TURN:
                         {
+                            //wind.rand_wind();
                             whose_turn = DOG_TURN;
                             whose_turn_text = "Tura Psa";
                             break;

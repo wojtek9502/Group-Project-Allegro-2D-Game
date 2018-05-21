@@ -343,7 +343,7 @@ void CollisionDetection(Player &dog, Player &cat, Ball &ball, Turn turn, int cat
     }
         if(throww==true)
     {
-        if((ball.ball_position_x>=400)&&(ball.ball_position_x<=400+wall_w)&&(ball.ball_position_y>=360)&&(ball.ball_position_y<=360+wall_h)&&ball.life==true){
+        if((ball.ball_position_x>=380)&&(ball.ball_position_x<=380+wall_w)&&(ball.ball_position_y>=360)&&(ball.ball_position_y<=360+wall_h)&&ball.life==true){
             ball.life=false;
             throww=false;
            // cout<<"Wykryto"<<endl;

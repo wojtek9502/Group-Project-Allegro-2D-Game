@@ -46,7 +46,7 @@ int main(){
     al_install_mouse();
     al_init_image_addon();
     al_init_primitives_addon();
-    ball.print_position_vector();
+
 
     // fonts init
     al_init_font_addon();
@@ -216,7 +216,7 @@ int main(){
 
 
     }//END GAME LOOP
-    ball.print_position_vector();
+
     al_destroy_bitmap(wall_bitmap);
     al_destroy_bitmap(ball_bitmap);
     al_destroy_bitmap(wind_right_bitmap);
