@@ -25,25 +25,12 @@ bool run_menu_start(ALLEGRO_MOUSE_STATE mouse, ALLEGRO_DISPLAY* display, ALLEGRO
             printf("one player: (%d, %d)\n", mouse.x, mouse.y);
             al_set_mouse_cursor(display, cursor);
             al_rest(0.1);
-            if(mouse.buttons & 1){
+            if(mouse.buttons & 1)
+            {
                 //cout<<"clicked one player: x:"<<mouse.x<<"y: "<<mouse.y<<endl;
                 end_menu_start = true;
             }
         }
-
-        /*
-        if((mouse.x >=275 && mouse.x <=510) && (mouse.y >=240 && mouse.y <=281))
-        {
-            printf("two player: (%d, %d)\n", mouse.x, mouse.y);
-            al_set_mouse_cursor(display, cursor);
-            al_rest(0.1);
-            if(mouse.buttons & 1){
-                cout<<"clicked one player: x:"<<mouse.x<<"y: "<<mouse.y<<endl;
-                end_menu_start = true;
-            }
-        }
-        */
-
     return end_menu_start;
 }
 
@@ -183,7 +170,7 @@ Player check_hp_cat(Player cat, int x, int y, int cWidth, int cHeight)
 string prepate_hp_text(int hp)
 {
     ostringstream output;
-    output << "HP " << hp ;
+    output << "PZ " << hp ;
     return output.str();
 }
 
@@ -201,8 +188,9 @@ string prepate_throw_strengtht_text(float throw_strength)
     return output.str();
 }
 
-void draw_wind_icons(Wind wind, ALLEGRO_BITMAP *wind_left_bitmap, ALLEGRO_BITMAP *wind_right_bitmap){
-
+void draw_wind_icons(Wind wind, ALLEGRO_BITMAP *wind_left_bitmap, ALLEGRO_BITMAP *wind_right_bitmap, Turn turn){
+  /*  if(turn.whose_turn==CAT)
+    {
     if(wind.strength<10){
         al_draw_bitmap(wind_left_bitmap, (800/2-20), 35, 0);
         al_draw_bitmap(wind_left_bitmap, (800/2-50), 35, 0);
@@ -231,12 +219,36 @@ void draw_wind_icons(Wind wind, ALLEGRO_BITMAP *wind_left_bitmap, ALLEGRO_BITMAP
         al_draw_bitmap(wind_right_bitmap, (800/2)+30, 35, 0);
         al_draw_bitmap(wind_right_bitmap, (800/2)+60, 35, 0);
     }
-    /* wiatr jako pasek
-    if(wind.direction == LEFT)
-        al_draw_filled_rectangle(800/2, 40, (800/2)+wind.strength*-wind_rectangle_width, 50, al_map_rgb(0,0,200));
-    else
-        al_draw_filled_rectangle(800/2, 40, (800/2)+wind.strength*wind_rectangle_width, 50, al_map_rgb(0,0,200));
-    */
+    } */
+    if(wind.strength<10){
+        al_draw_bitmap(wind_left_bitmap, (800/2-20), 35, 0);
+        al_draw_bitmap(wind_left_bitmap, (800/2-50), 35, 0);
+        al_draw_bitmap(wind_left_bitmap, (800/2-80), 35, 0);
+    }
+    if(wind.strength<15){
+        al_draw_bitmap(wind_left_bitmap, (800/2-20), 35, 0);
+        al_draw_bitmap(wind_left_bitmap, (800/2-50), 35, 0);
+    }
+    if(wind.strength<20){
+        al_draw_bitmap(wind_left_bitmap, (800/2-20), 35, 0);
+    }
+
+    if(wind.strength>20)
+    {
+        al_draw_bitmap(wind_right_bitmap, (800/2), 35, 0);
+    }
+    if(wind.strength>25)
+    {
+        al_draw_bitmap(wind_right_bitmap, (800/2), 35, 0);
+        al_draw_bitmap(wind_right_bitmap, (800/2)+30, 35, 0);
+    }
+    if(wind.strength>30)
+    {
+        al_draw_bitmap(wind_right_bitmap, (800/2), 35, 0);
+        al_draw_bitmap(wind_right_bitmap, (800/2)+30, 35, 0);
+        al_draw_bitmap(wind_right_bitmap, (800/2)+60, 35, 0);
+    }
+
 
 }
 
@@ -256,12 +268,12 @@ void check_wind_change(Wind &wind, ALLEGRO_KEYBOARD_STATE keyboard){
      if(al_key_down(&keyboard, ALLEGRO_KEY_Z))
         {
             if(wind.strength>=10)
-                wind.strength -=0.1;
+                wind.strength -=0.5;
         }
      if(al_key_down(&keyboard, ALLEGRO_KEY_X))
         {
-            if(wind.strength<=30)
-                wind.strength +=0.1;
+            if(wind.strength<=40)
+                wind.strength +=0.5;
         }
 }
 
@@ -269,10 +281,11 @@ Ball moveBallDog(Ball ball, float Vo, float angle, float wind, Player dog, int w
 {
     if(ball.life==true){
     float constant_wind = 10;
+    float windreverse = 50 - wind;
     float g = 9.80665;
     float e = 2.718281828459;
-    float x = (Vo * cos(angle*PI/180) / constant_wind) * (1 - pow(e, -constant_wind*ball.time));
-    float y = ((Vo * sin(angle*PI/180) / wind) + (g/wind) ) * (1 - pow(e, -wind*ball.time)) - (g*ball.time/wind);
+    float x = (Vo * cos(angle*PI/180) / windreverse) * (1 - pow(e, -windreverse*ball.time));
+    float y = ((Vo * sin(angle*PI/180) / constant_wind) + (g/constant_wind) ) * (1 - pow(e, -constant_wind*ball.time)) - (g*ball.time/constant_wind);
 
         ball.ball_position_x -= x*ball.step;
         ball.ball_position_y -= y*ball.step;
@@ -294,8 +307,8 @@ Ball moveBallCat(Ball ball, float Vo, float angle, float wind, Player cat, int w
     float constant_wind = 10;
     float g = 9.80665;
     float e = 2.718281828459;
-    float x = (Vo * cos(angle*PI/180) / constant_wind) * (1 - pow(e, -constant_wind*ball.time));
-    float y = ((Vo * sin(angle*PI/180) / wind) + (g/wind) ) * (1 - pow(e, -wind*ball.time)) - (g*ball.time/wind);
+   float x = (Vo * cos(angle*PI/180) / wind) * (1 - pow(e, -wind*ball.time));
+   float y = ((Vo * sin(angle*PI/180) / constant_wind) + (g/constant_wind) ) * (1 - pow(e, -constant_wind*ball.time)) - (g*ball.time/constant_wind);
 
         ball.ball_position_x -= x*ball.step;
         ball.ball_position_y -= y*ball.step;
@@ -344,6 +357,17 @@ void CollisionDetection(Player &dog, Player &cat, Ball &ball, Turn turn, int cat
         if(throww==true)
     {
         if((ball.ball_position_x>=380)&&(ball.ball_position_x<=380+wall_w)&&(ball.ball_position_y>=360)&&(ball.ball_position_y<=360+wall_h)&&ball.life==true){
+            ball.life=false;
+            throww=false;
+           // cout<<"Wykryto"<<endl;
+           // cout<<cat.hp<<endl;
+            ball.time=1;
+            ball.step=0.1;
+        }
+    }
+        if(throww==true)
+    {
+        if((ball.ball_position_x>=810)||(ball.ball_position_x<=0)&&ball.life==true){
             ball.life=false;
             throww=false;
            // cout<<"Wykryto"<<endl;

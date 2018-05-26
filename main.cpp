@@ -110,7 +110,7 @@ int main(){
             al_draw_bitmap(dog_bitmap, dog.x_position, dog.y_position, 0);
             al_draw_bitmap(cat_bitmap, cat.x_position, cat.y_position,0);
             al_draw_text(font_title_size_obj, al_map_rgb(255, 177, 10), screen_width/2, 80, ALLEGRO_ALIGN_CENTRE, "Pies i Kot");
-            al_draw_text(font_normal_size_obj, al_map_rgb(255, 177, 10), screen_width/2, 180, ALLEGRO_ALIGN_CENTRE, "PLAY");
+            al_draw_text(font_normal_size_obj, al_map_rgb(255, 177, 10), screen_width/2, 180, ALLEGRO_ALIGN_CENTRE, "START");
             //al_draw_text(font_normal_size_obj, al_map_rgb(255, 177, 10), screen_width/2, 240, ALLEGRO_ALIGN_CENTRE, "Two Players");
 
         }
@@ -129,11 +129,6 @@ int main(){
                 CollisionDetection(dog,cat,ball,game_turn,cat_width,cat_height,dog_width,dog_height,wall_height,wall_width);
                 //CollisionDetection(dog,cat,ball,game_turn,cat_width,cat_height,dog_width,dog_height)
 
-                if(ev.type == ALLEGRO_EVENT_MOUSE_BUTTON_DOWN)
-                {
-                   dog = check_hp_dog(dog, ev.mouse.x, ev.mouse.y, dog_width, dog_height);
-               //    cat = check_hp_cat(cat, ev.mouse.x, ev.mouse.y, cat_width, cat_height);
-                }
                 if(al_key_down(&keyboard, ALLEGRO_KEY_SPACE))
                 {
                     if(game_turn.whose_turn==DOG_TURN){
@@ -184,7 +179,7 @@ int main(){
 
             //draw wind
             al_draw_text(font_small_size_obj, al_map_rgb(0, 0, 200), screen_width/2, 10, ALLEGRO_ALIGN_CENTRE, "Wiatr");
-            draw_wind_icons(wind, wind_left_bitmap, wind_right_bitmap);
+            draw_wind_icons(wind, wind_left_bitmap, wind_right_bitmap, game_turn);
             //al_draw_text(font_small_size_obj, al_map_rgb(0, 0, 200), screen_width/2, 60, ALLEGRO_ALIGN_CENTRE, prepate_wind_text(wind.strength).c_str());
 
             //draw wall and turn text
