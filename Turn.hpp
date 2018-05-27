@@ -23,7 +23,14 @@ public:
 
     }
 
-    //zmien ture i wylosuj wiatr
+
+    /**
+     * zmien ture i wylosuj wiatr
+     *
+     * @param keyboard
+     * @param ev
+     * @param wind
+     */
     void check_change_turn(ALLEGRO_KEYBOARD_STATE keyboard, ALLEGRO_EVENT ev, Wind &wind) // zmiana turny jesli byla tura psa to zmien na ture kota itd
     {
         if(ev.keyboard.keycode == ALLEGRO_KEY_SPACE) // jesli nacisnie spacje

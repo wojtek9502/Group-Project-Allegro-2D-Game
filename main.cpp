@@ -16,7 +16,9 @@
 #define screen_width 800
 #define screen_height 537
 
-//wielkosci fontow
+/**
+ * Wielkość czcionek
+ */
 #define font_normal_size 40
 #define font_small_size 20
 #define font_very_small_size 18
@@ -32,6 +34,10 @@ Player dog = Player("dog",130,390,300);
 Player cat = Player("cat",500,380,300);
 
 
+/**
+ * Funkcja Main
+ * @return
+ */
 int main(){
     srand(time(NULL));
     bool end_menu_start = false;

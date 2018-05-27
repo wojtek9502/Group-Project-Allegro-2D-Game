@@ -3,6 +3,11 @@
 
 
 //example:  ALLEGRO_BITMAP *start_background = load_bitmap("start_background.png");
+/**
+ * Sprawdzenie czy bitmapa została załdowana poprawnie
+ * @param bitmap_path
+ * @return
+ */
 ALLEGRO_BITMAP* load_bitmap(char *bitmap_path)
 {
     ALLEGRO_BITMAP *tmp_bitmap_array =  al_load_bitmap(bitmap_path);

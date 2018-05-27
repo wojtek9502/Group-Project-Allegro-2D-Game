@@ -17,6 +17,14 @@ bool dog_strenght_rise = true;
 bool cat_strenght_rise = true;
 bool throww = false;
 
+/**
+ * Sprawdzenie czy przycisk start został kliknięty, jesli tak zostaje włączona główna rozgrywka
+ * @param mouse
+ * @param display
+ * @param cursor
+ * @param end_menu_start
+ * @return
+ */
 bool run_menu_start(ALLEGRO_MOUSE_STATE mouse, ALLEGRO_DISPLAY* display, ALLEGRO_MOUSE_CURSOR* cursor, bool end_menu_start)
 {
      if((mouse.x >=278 && mouse.x <=500) && (mouse.y >= 190 && mouse.y <=215))
@@ -34,6 +42,15 @@ bool run_menu_start(ALLEGRO_MOUSE_STATE mouse, ALLEGRO_DISPLAY* display, ALLEGRO
     return end_menu_start;
 }
 
+/**
+ * Tura psa
+ * @param keyboard
+ * @param dog
+ * @param screen_width
+ * @param dog_width
+ * @param turn
+ * @return
+ */
 Player check_dog_move(ALLEGRO_KEYBOARD_STATE keyboard, Player &dog, int screen_width, int dog_width, Turn turn){
 
     if(turn.whose_turn == DOG_TURN)
@@ -86,6 +103,15 @@ Player check_dog_move(ALLEGRO_KEYBOARD_STATE keyboard, Player &dog, int screen_w
      return dog;
 }
 
+/**
+ * Tura kota
+ * @param keyboard
+ * @param cat
+ * @param screen_width
+ * @param cat_width
+ * @param turn
+ * @return
+ */
 Player check_cat_move(ALLEGRO_KEYBOARD_STATE keyboard, Player &cat, int screen_width, int cat_width, Turn turn)
 {
     if(turn.whose_turn == CAT_TURN)
@@ -137,6 +163,16 @@ Player check_cat_move(ALLEGRO_KEYBOARD_STATE keyboard, Player &cat, int screen_w
     }
     return cat;
 }
+
+/**
+ * Sprawdzenie ilości życia psa
+ * @param dog
+ * @param x
+ * @param y
+ * @param dWidth
+ * @param dHeight
+ * @return
+ */
 Player check_hp_dog(Player dog, int x, int y, int dWidth, int dHeight)
 {
 
@@ -151,6 +187,16 @@ Player check_hp_dog(Player dog, int x, int y, int dWidth, int dHeight)
     }
     return dog;
 }
+
+/**
+ * Sprawdzenie ilości życia kota
+ * @param cat
+ * @param x
+ * @param y
+ * @param cWidth
+ * @param cHeight
+ * @return
+ */
 Player check_hp_cat(Player cat, int x, int y, int cWidth, int cHeight)
 {
 
@@ -167,6 +213,11 @@ Player check_hp_cat(Player cat, int x, int y, int cWidth, int cHeight)
     return cat;
 }
 
+/**
+ * Wyświetlenie napisu PZ
+ * @param hp
+ * @return
+ */
 string prepate_hp_text(int hp)
 {
     ostringstream output;
@@ -174,6 +225,11 @@ string prepate_hp_text(int hp)
     return output.str();
 }
 
+/**
+ * Wyświetlenie napisu Siła
+ * @param wind
+ * @return
+ */
 string prepate_wind_text(float wind)
 {
     ostringstream output;
@@ -181,6 +237,11 @@ string prepate_wind_text(float wind)
     return output.str();
 }
 
+/**
+ * Wyświetlenie napisu Siła rzutu
+ * @param throw_strength
+ * @return
+ */
 string prepate_throw_strengtht_text(float throw_strength)
 {
     ostringstream output;
@@ -188,38 +249,15 @@ string prepate_throw_strengtht_text(float throw_strength)
     return output.str();
 }
 
+/**
+ * Wyświetlenie ikonek wiatru w zależności od jego siły
+ * @param wind
+ * @param wind_left_bitmap
+ * @param wind_right_bitmap
+ * @param turn
+ */
 void draw_wind_icons(Wind wind, ALLEGRO_BITMAP *wind_left_bitmap, ALLEGRO_BITMAP *wind_right_bitmap, Turn turn){
-  /*  if(turn.whose_turn==CAT)
-    {
-    if(wind.strength<10){
-        al_draw_bitmap(wind_left_bitmap, (800/2-20), 35, 0);
-        al_draw_bitmap(wind_left_bitmap, (800/2-50), 35, 0);
-        al_draw_bitmap(wind_left_bitmap, (800/2-80), 35, 0);
-    }
-    if(wind.strength<15){
-        al_draw_bitmap(wind_left_bitmap, (800/2-20), 35, 0);
-        al_draw_bitmap(wind_left_bitmap, (800/2-50), 35, 0);
-    }
-    if(wind.strength<20){
-        al_draw_bitmap(wind_left_bitmap, (800/2-20), 35, 0);
-    }
 
-    if(wind.strength>20)
-    {
-        al_draw_bitmap(wind_right_bitmap, (800/2), 35, 0);
-    }
-    if(wind.strength>25)
-    {
-        al_draw_bitmap(wind_right_bitmap, (800/2), 35, 0);
-        al_draw_bitmap(wind_right_bitmap, (800/2)+30, 35, 0);
-    }
-    if(wind.strength>28)
-    {
-        al_draw_bitmap(wind_right_bitmap, (800/2), 35, 0);
-        al_draw_bitmap(wind_right_bitmap, (800/2)+30, 35, 0);
-        al_draw_bitmap(wind_right_bitmap, (800/2)+60, 35, 0);
-    }
-    } */
     if(wind.strength<10){
         al_draw_bitmap(wind_left_bitmap, (800/2-20), 35, 0);
         al_draw_bitmap(wind_left_bitmap, (800/2-50), 35, 0);
@@ -252,6 +290,12 @@ void draw_wind_icons(Wind wind, ALLEGRO_BITMAP *wind_left_bitmap, ALLEGRO_BITMAP
 
 }
 
+/**
+ * Sprawdzenie kto wygrał grę i wyświetlenie odpowiedniego napisu
+ * @param dog
+ * @param cat
+ * @param font_title_size_obj
+ */
 void check_end_game(Player dog, Player cat, ALLEGRO_FONT font_title_size_obj[])
 {
     //wygrana psa
@@ -264,6 +308,11 @@ void check_end_game(Player dog, Player cat, ALLEGRO_FONT font_title_size_obj[])
     }
 }
 
+/**
+ * Zmiana wiatru
+ * @param wind
+ * @param keyboard
+ */
 void check_wind_change(Wind &wind, ALLEGRO_KEYBOARD_STATE keyboard){
      if(al_key_down(&keyboard, ALLEGRO_KEY_Z))
         {
@@ -277,6 +326,16 @@ void check_wind_change(Wind &wind, ALLEGRO_KEYBOARD_STATE keyboard){
         }
 }
 
+/**
+ * Rzut piłką przez psa
+ * @param ball
+ * @param Vo
+ * @param angle
+ * @param wind
+ * @param dog
+ * @param width
+ * @return
+ */
 Ball moveBallDog(Ball ball, float Vo, float angle, float wind, Player dog, int width)
 {
     if(ball.life==true){
@@ -301,6 +360,17 @@ Ball moveBallDog(Ball ball, float Vo, float angle, float wind, Player dog, int w
             ball.step=0.1;}
     return ball;
 }
+
+/**
+ * Rzut piłką przez kota
+ * @param ball
+ * @param Vo
+ * @param angle
+ * @param wind
+ * @param cat
+ * @param width
+ * @return
+ */
 Ball moveBallCat(Ball ball, float Vo, float angle, float wind, Player cat, int width)
 {
     if(ball.life==true){
@@ -324,6 +394,20 @@ Ball moveBallCat(Ball ball, float Vo, float angle, float wind, Player cat, int w
             ball.step=0.1;}
     return ball;
 }
+
+/**
+ * Wykrywanie kolizji piłki z psem, kotem lub murem
+ * @param dog
+ * @param cat
+ * @param ball
+ * @param turn
+ * @param cat_w
+ * @param cat_h
+ * @param dog_w
+ * @param dog_h
+ * @param wall_h
+ * @param wall_w
+ */
 void CollisionDetection(Player &dog, Player &cat, Ball &ball, Turn turn, int cat_w, int cat_h, int dog_w, int dog_h, int wall_h, int wall_w)
 {
       if((turn.whose_turn==DOG_TURN)&&(throww==true))

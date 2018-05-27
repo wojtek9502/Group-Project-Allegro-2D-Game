@@ -4,6 +4,10 @@
 #define ARROW_LENGHT 60.0
 #define M_PI 3.14
 using namespace std;
+
+/**
+ * Klasa player
+ */
 class Player{
 
 public:
@@ -19,7 +23,13 @@ public:
     float Vo=100;
 
 
-
+    /**
+     * Konstruktor klasy Player
+     * @param name
+     * @param x_position
+     * @param y_position
+     * @param hp
+     */
     Player(string name, int x_position, int y_position, int hp=100)
     {
         this->name=name;
@@ -42,16 +52,29 @@ public:
 
     }
 
+    /**
+     * Ruch postaci w Lewo
+     * @param pixels
+     */
     void move_left(float pixels=0.5)
     {
         x_position = x_position-pixels;
     }
 
+    /**
+     * Ruch postaci w prawo
+     * @param pixels
+     */
     void move_right(float pixels=0.5)
     {
         x_position = x_position+pixels;
     }
 
+    /**
+     * Ruch kreski odpowiedzialnej za wybór kąta rzutu
+     * @param angle
+     * @param player
+     */
     void move_arrow(double angle, Player player)
     {
 
@@ -100,6 +123,11 @@ public:
 
     }
 
+/**
+ * Konwersja stopni na radiany
+ * @param degree_angle
+ * @return
+ */
 double conv_to_radian(double degree_angle)
 {
     return degree_angle * (M_PI/180);

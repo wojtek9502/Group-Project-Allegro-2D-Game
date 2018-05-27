@@ -7,6 +7,9 @@
 using namespace std;
 
 
+/**
+ * Klasa piłki
+ */
 class Ball {
 public:
     float ball_position_x;

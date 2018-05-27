@@ -19,7 +19,9 @@ public:
     Wind_direction direction;
 
 
-
+/**
+ * losowanie siły wiatru
+ */
 void rand_wind(){
     float range_start = 10.0;
     float range_end = 40.0;
